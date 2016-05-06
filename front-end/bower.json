@@ -1,0 +1,11 @@
+{
+    "name": "alertcam",
+    "version": "1.0.0",
+    "description": "Epidemiological Surveillance Platform",
+    "main": "index.js",
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+
+  }
+}

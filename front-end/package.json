@@ -1,5 +1,5 @@
 {
-  "name": "alercam",
+  "name": "alertcam",
   "version": "1.0.0",
   "description": "Epidemiological Surveillance Platform",
   "main": "index.js",
@@ -11,9 +11,24 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-connect": "^3.2.2",
-    "gulp-ruby-sass": "^2.0.6"
+    "gulp-ruby-sass": "^2.0.6",
+    "http-server": "^0.6.1",
+    "angular": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "angular-loader": "~1.4.0",
+    "angular-mocks": "~1.4.0",
+    "html5-boilerplate": "~5.2.0",
+    "jasmine-core": "^2.3.4",
+    "karma": "~0.12",
+    "karma-chrome-launcher": "^0.1.12",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-jasmine": "^0.3.5",
+    "karma-junit-reporter": "^0.2.2",
+    "protractor": "^2.1.0",
+    "shelljs": "^0.2.6"
   },
   "dependencies": {
-    "angular": "^1.5.5"
+    "angular": "^1.5.5",
+    "bootstrap": "^3.3.6"
   }
 }
