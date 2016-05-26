@@ -27,4 +27,4 @@ gulp.task('watch', function() {
     gulp.watch('app/**/*.js', ['browserify'])
 })
 
-gulp.task('default', ['connect', 'watch'])
+gulp.task('default', ['connect', 'browserify', 'watch'])
