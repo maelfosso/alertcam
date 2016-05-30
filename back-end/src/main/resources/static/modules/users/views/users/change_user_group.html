@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <h3 class="modal-title">Modify an user group</h3>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+        <label class="control-label">
+            Select a new group for <strong>{{ user.name }}</strong>
+        </label>
+        <select name="new-user-group" id="new-user-group" class="form-control" >
+            <option value="">Group</option>
+            <option value="01">Administrator</option>
+            <option value="02">Virologist</option>
+            <option value="03">Epidemiologist</option>
+        </select>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success" type="submit" ng-click="change()">Change group</button>
+</div>

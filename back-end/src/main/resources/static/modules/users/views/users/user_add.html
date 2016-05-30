@@ -1,0 +1,80 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add an user</h3>
+</div>
+<div class="modal-body">
+    <form action="#" role="form" id="form">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-times-sign"></i> You have some form errors. Please check below.
+                </div>
+                <div class="successHandler alert alert-success no-display">
+                    <i class="fa fa-ok"></i> Your form validation is successful!
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">
+                        Full Name <span class="symbol required"></span>
+                    </label>
+                    <input type="text" ng-model="user.fullname" placeholder="Insert your Full Name" class="form-control" id="fullname" name="fullname">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Username <span class="symbol required"></span>
+                    </label>
+                    <input type="text" ng-model="user.username" placeholder="Insert your username" class="form-control" id="username" name="username">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Password <span class="symbol required"></span>
+                    </label>
+                    <input type="password" ng-model="user.password" class="form-control" name="password" id="password">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Confirm Password <span class="symbol required"></span>
+                    </label>
+                    <input type="password" ng-model="user.password_again" class="form-control" id="password_again" name="password_again">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">
+                        Email Address <span class="symbol required"></span>
+                    </label>
+                    <input type="email" ng-model="user.email" placeholder="Text Field" class="form-control" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        User group <span class="symbol required"></span>
+                    </label>
+                    <select name="user-group" ng-model="user.group" id="user-group" class="form-control" >
+                        <option value="">DD</option>
+                        <option value="01">Administrator</option>
+                        <option value="02">Virologist</option>
+                        <option value="03">Epidemiologist</option>
+                    </select>
+                </div>
+                <div class="checkbox checkbox-info checkbox-circle">
+                    <input type="checkbox" value="true" ng-model="user.status" name="user-status" id="user-status">
+                    <label class="control-label" for="user-status">User status </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <span class="symbol required"></span>Required Fields
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success" type="submit" ng-click="submit()">
+        Register <i class="fa fa-arrow-circle-right"></i>
+    </button>
+</div>
