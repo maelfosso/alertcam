@@ -1,0 +1,17 @@
+server:
+  port: 8085
+  
+security:
+  user:
+    password: password
+    
+logging:
+  level:
+    org.springframework.security: DEBUG
+    
+zuul:
+  routes:
+    resource:
+      path: /resource/**
+      url: http://localhost:9000
+      sensitive-headers: 

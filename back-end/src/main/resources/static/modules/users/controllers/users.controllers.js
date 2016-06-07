@@ -1,4 +1,4 @@
-var users = angular.module('alertcam.users')
+var users = angular.module('alertcam.users');
 
 users.controller('UsersController', ['$scope', '$uibModal', '$log', function($scope, $uibModal, $log) {
 
@@ -98,6 +98,14 @@ users.controller('UsersController', ['$scope', '$uibModal', '$log', function($sc
         }
     ]
 
+    $scope.login = function() {
+    	
+    }
+    
+    $scope.logout = function() {
+    	
+    }
+    
     $scope.add = {
         open: function() {
             var modalInstance = $uibModal.open({

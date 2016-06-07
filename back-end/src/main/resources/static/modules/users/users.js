@@ -1,12 +1,15 @@
 'use strict';
 
-angular.module('alertcam.users', ['ngRoute'])
+angular.module('alertcam.users', ['ui-router'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/users', {
-    templateUrl: 'modules/users/index.html'
-  });
-}])
+.config(function($stateProvider, $urlRouterProvider) {
+	
+	$stateProvider
+		.state("users", {
+			url: "users",
+			templateUrl: "module/users/index.html"
+		})
+})
 
 
 ;

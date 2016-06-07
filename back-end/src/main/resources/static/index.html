@@ -5,10 +5,55 @@
     <title>Alertcam</title>
 
     <link rel="stylesheet" type="text/css" href="css/angular-bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="css/alertcam.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="css/theme_light.css"/>
 </head>
-<body>
-    <header class="back-end">
+<body style="padding-top: 90px;">
+    
+    <header class="front-end" ng-show="!authenticated">
+        <div role="navigation" class="navbar navbar-default navbar-fixed-top space-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" ui-sref="welcome">
+                        ALERTCAM
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active">
+                            <a ui-sref="welcome">
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a ui-sref="about">
+                                About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a ui-sref="contact">
+                                Contact Us
+                            </a>
+                        </li>
+                        <li>
+                            <a ui-sref="login">
+                                Sign In
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+	<header class="back-end" ng-show="authenticated" ng-controller="HomeController as home">
     	<div class="navbar navbar-inverse navbar-fixed-top">
     		<div class="container">
     			<div class="navbar-header">
@@ -16,7 +61,7 @@
     					<span class="clip-list-2"></span>
     				</button>
 
-    				<a class="navbar-brand" href="index.html">
+    				<a class="navbar-brand" ui-sref="home">
     					ALERTC<i class="fa fa-bell"></i>M
     				</a>
     			</div>
@@ -30,29 +75,14 @@
     						</a>
     						<ul class="dropdown-menu">
     							<li>
-    								<a href="pages_user_profile.html">
+    								<a href="">
     									<i class="clip-user-2"></i>
     									&nbsp;My Profile
     								</a>
     							</li>
-    							<li>
-    								<a href="pages_calendar.html">
-    									<i class="clip-calendar"></i>
-    									&nbsp;My Calendar
-    								</a>
-    							<li>
-    								<a href="pages_messages.html">
-    									<i class="clip-bubble-4"></i>
-    									&nbsp;My Messages (3)
-    								</a>
-    							</li>
     							<li class="divider"></li>
     							<li>
-    								<a href="utility_lock_screen.html"><i class="clip-locked"></i>
-    									&nbsp;Lock Screen </a>
-    							</li>
-    							<li>
-    								<a href="login_example1.html">
+    								<a href="" ng-click="home.logout()">
     									<i class="clip-exit"></i>
     									&nbsp;Log Out
     								</a>
@@ -66,60 +96,16 @@
     			</div>
     		</div>
     	</div>
-    </header>
-
-    <div class="back-end">
-    	<div class="main-container">
-    		<div class="navbar-content">
-    			<!-- start: SIDEBAR -->
-    			<div class="main-navigation navbar-collapse collapse">
-    				<!-- start: MAIN MENU TOGGLER BUTTON -->
-    				<div class="navigation-toggler">
-    					<i class="fa fa-angle-left"></i>
-    					<i class="fa fa-angle-right"></i>
-    				</div>
-    				<!-- end: MAIN MENU TOGGLER BUTTON -->
-    				<!-- start: MAIN NAVIGATION MENU -->
-    				<ul class="main-navigation-menu">
-    					<li>
-    						<a href="dashboard.html"><i class="fa fa-home"></i>
-    							<span class="title"> Dashboard </span><span class="selected"></span>
-    						</a>
-    					</li>
-    					<li>
-    						<a href="#"><i class="fa fa-database"></i>
-    							<span class="title"> Surveillance Data </span>
-    						</a>
-                        </li>
-    					<li class="active open">
-    						<a href="#" target="_blank"><i class="fa fa-users"></i>
-    							<span class="title"> Manage Users </span><span class="selected"></span>
-    						</a>
-    					</li>
-    					<li>
-    						<a href="#"><i class="fa fa-tasks"></i>
-    							<span class="title"> Configure Tasks </span>
-    						</a>
-                        </li>
-    					<li>
-    						<a href="#"><i class="fa fa-exchange"></i>
-    							<span class="title"> Feedback </span>
-    						</a>
-                        </li>
-                    </ul>
-    				<!-- end: MAIN NAVIGATION MENU -->
-    			</div>
-    			<!-- end: SIDEBAR -->
-    		</div>
-
-    		<div class="main-content">
-                <div ng-view></div>
-            </div>
-    	</div>
-    </div>
-
-
-    <!--script src="js/angular-bootstrap.js"></script-->
-    <!--script src="js/alertcam.js"></script-->
+    </header>    
+	
+	<div ui-view ng-show="!authenticated"></div>
+	
+    <script src="js/angular-bootstrap.js"></script>
+    <script src="app.js"></script>
+    <script src="modules/users/users.js"></script>
+    <script src="modules/users/controllers/users.controllers.js"></script>
+    <script src="modules/users/controllers/mailing_lists.controllers.js"></script>
+    <script src="modules/users/controllers/users_groups.controllers.js"></script>
+    <script src="modules/users/controllers/events.controllers.js"></script>
 </body>
 </html>
