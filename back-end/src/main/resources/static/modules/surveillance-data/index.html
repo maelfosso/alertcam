@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <ol class="breadcrumb">
+                <li>
+                    <i class="fa fa-file-o"></i>
+                    <a href="#">
+                        Layouts
+                    </a>
+                </li>
+                <li class="active">
+                    Footer Fixed
+                </li>
+                <li class="search-box">
+                    <form class="sidebar-search">
+                        <div class="form-group">
+                            <input type="text" placeholder="Start Searching...">
+                            <button class="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </li>
+            </ol>
+            <div class="page-header">
+                <h1>Surveillance Data <small>Datasources, Time Place Management</small></h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="" ng-controller="DatasourceController">
+                <legend>
+                    List of data source
+                    <a class="btn btn-xs pull-right" style="margin-top: 10px;" ng-click="add.open()" data-toggle="modal">
+                        <i class="fa fa-plus"></i> add data source
+                    </a>
+                </legend>
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="center">
+                            <th> # </th>
+                            <th> Name </th>
+                            <th> Attached event </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="ds in dsl">
+                            <td> 1 </td>
+                            <td>{{ ds.name }}</td>
+                            <td>{{ ds.event }}</td>
+                            <td>
+                                <a href="#"> Set TPP Fields</a>
+                                <a href="#" class="btn btn-xs btn-primary tooltips" ng-click="queries.open(ds)"
+                                    data-placement="top" data-original-title="Queries"> Queries </a>
+                                <a href="#" class="btn btn-xs btn-teal tooltips" ng-click="edit.open(ds)"
+                                    data-placement="top" data-original-title="Edit"> Edit </a>
+                                <a href="#"  class="btn btn-xs btn-bricky tooltips" data-placement="top"
+                                    data-original-title="Delete" ng-click="delete.open(ds)" data-toggle="modal"> Delete </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

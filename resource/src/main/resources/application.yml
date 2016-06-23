@@ -3,3 +3,20 @@ server:
   address: 127.0.0.1
 security:
   sessions: never
+  basic:
+    enabled: false
+
+    
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/alercam
+    username: root
+    password: mael
+    
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      

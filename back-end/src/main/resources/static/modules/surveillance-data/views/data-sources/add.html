@@ -1,0 +1,82 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add a data source</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" action="#" role="form" id="form">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-times-sign"></i> You have some form errors. Please check below.
+                </div>
+                <div class="successHandler alert alert-success no-display">
+                    <i class="fa fa-ok"></i> Your form validation is successful!
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-md-5 control-label">
+                        Data source name <span class="symbol required"></span>
+                    </label>
+                    <div class="col-md-7">
+                        <input type="text" ng-model="ds.name" class="form-control" id="name" name="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-5 control-label">
+                        Source type <span class="symbol required"></span>
+                    </label>
+                    <div class="col-md-7">
+                        <select ng-options="type in sources_types" ng-model="ds.source_type" class="form-control" id="source_type" name="source_type">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-5 control-label">
+                        Database server <span class="symbol required"></span>
+                    </label>
+                    <div class="col-md-7">
+                        <input type="text" ng-model="ds.db_server" class="form-control" name="db_username" id="db_username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-5 control-label">
+                        Database username <span class="symbol required"></span>
+                    </label>
+                    <div class="col-md-7">
+                        <input type="text" ng-model="ds.db_username" class="form-control" id="db_username" name="db_username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-5 control-label">
+                        Database password <span class="symbol required"></span>
+                    </label>
+                    <div class="col-md-7">
+                        <input type="password" ng-model="ds.db_password" class="form-control" id="db_password" name="db_password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-5 control-label">
+                        Associated Event Under Surveillance <span class="symbol required"></span>
+                    </label>
+                    <div class="col-md-7">
+                        <select ng-options="event in events" ng-model="ds.event" class="form-control" id="event" name="event">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <span class="symbol required"></span>Required Fields
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-error" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="test()">Test connexion</button>
+    <button class="btn btn-success" type="submit" ng-click="submit()">Add</button>
+</div>

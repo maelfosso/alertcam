@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add a script</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" action="#" role="form" id="form">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-times-sign"></i> You have some form errors. Please check below.
+                </div>
+                <div class="successHandler alert alert-success no-display">
+                    <i class="fa fa-ok"></i> Your form validation is successful!
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">
+                        Name <span class="symbol required"></span>
+                    </label>
+                    <div class="col-md-7">
+                        <input type="text" ng-model="script.name" class="form-control" id="name" name="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">
+                        File <span class="symbol required"></span>
+                    </label>
+                    <div class="col-md-7">
+                        <input type="text" ng-model="script.file" class="form-control" id="file" name="file">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">
+                        Associated event <span class="symbol required"></span>
+                    </label>
+                    <div class="col-md-7">
+                        <select ng-options="event.name for event in events" ng-model="script.associated_event" class="form-control" id="associated_event" name="associated_event">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">
+                        Script type <span class="symbol required"></span>
+                    </label>
+                    <div class="col-md-7">
+                        <select ng-options="type.name for type in types" ng-model="script.type" class="form-control" id="type" name="type">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">
+                        Description <span class="symbol required"></span>
+                    </label>
+                    <div class="col-md-7">
+                        <textarea ng-model="script.description" class="form-control" name="description" id="description">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <span class="symbol required"></span>Required Fields
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-error" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="test()">Test connexion</button>
+    <button class="btn btn-success" type="submit" ng-click="submit()">
+        Add <i class="fa fa-arrow-circle-right"></i>
+    </button>
+</div>

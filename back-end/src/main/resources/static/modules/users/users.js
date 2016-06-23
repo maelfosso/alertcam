@@ -1,14 +1,18 @@
 'use strict';
 
-angular.module('alertcam.users', ['ui-router'])
+angular.module('alertcam.users', [])
 
 .config(function($stateProvider, $urlRouterProvider) {
-	
+
 	$stateProvider
+
 		.state("users", {
-			url: "users",
-			templateUrl: "module/users/index.html"
-		})
+            url: "/users",
+            templateUrl: "modules/users/index.html",
+            controller: function($rootScope) {
+                $rootScope.state = "users";
+            } //"SurveillanceController",
+        })
 })
 
 

@@ -1,0 +1,64 @@
+<div class="modal-header">
+    <h3 class="modal-title">Queries</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" action="#" role="form" id="form">
+        <fieldset>
+            <legend style="font-size: 18px;">Suspect cases per site over a specified period</legend>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="errorHandler alert alert-danger no-display">
+                        <i class="fa fa-times-sign"></i> You have some form errors. Please check below.
+                    </div>
+                    <div class="successHandler alert alert-success no-display">
+                        <i class="fa fa-ok"></i> Your form validation is successful!
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    {{ queries.form }}
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">
+                            Site field <span class="symbol required"></span>
+                        </label>
+                        <div class="col-md-7">
+                            <select ng-model="ds.site" ng-options="site.name for site in queries.form.sites"
+                                class="form-control" id="site" name="site"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">
+                            From <span class="symbol required"></span>
+                        </label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ds.from" class="form-control" id="from" name="from">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">
+                            To <span class="symbol required"></span>
+                        </label>
+                        <div class="col-md-7">
+                            <input type="text" ng-model="ds.to" class="form-control" id="to" name="to">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <span class="symbol required"></span>Required Fields
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-error" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="test()">Test connexion</button>
+    <button class="btn btn-success" type="submit" ng-click="submit()">
+        Add <i class="fa fa-arrow-circle-right"></i>
+    </button>
+</div>

@@ -1,0 +1,107 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <ol class="breadcrumb">
+                <li>
+                    <i class="fa fa-file-o"></i>
+                    <a href="#">
+                        Layouts
+                    </a>
+                </li>
+                <li class="active">
+                    Footer Fixed
+                </li>
+                <li class="search-box">
+                    <form class="sidebar-search">
+                        <div class="form-group">
+                            <input type="text" placeholder="Start Searching...">
+                            <button class="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </li>
+            </ol>
+            <div class="page-header">
+                <h1>Tasks Management <small>Scripts, Tasks scheduling, Analysis scripts</small></h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="" ng-controller="ScriptController">
+                <legend>
+                    Scripts
+                    <a class="btn btn-xs pull-right" style="margin-top: 10px;" ng-click="add.open()" data-toggle="modal">
+                        <i class="fa fa-plus"></i> add a script
+                    </a>
+                </legend>
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="center">
+                            <th> # </th>
+                            <th> Name </th>
+                            <th> Last updated </th>
+                            <th> Associated disease </th>
+                            <th> Type </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="script in scripts" ng-class="{ success : script.scheduled == true }">
+                            <td> 1 </td>
+                            <td>{{ script.name }}</td>
+                            <td>{{ script.last_updated}}</td>
+                            <td>{{ script.associated_disease }}</td>
+                            <td>{{ script.type }}</td>
+                            <td>
+                                <a href="#" class="btn btn-xs btn-teal tooltips" ng-click="edit.open(script)"
+                                    data-placement="top" data-original-title="Edit"> <i class="fa fa-pencil"></i> </a>
+                                <a href="#"  class="btn btn-xs btn-bricky tooltips" data-placement="top"
+                                    data-original-title="Delete" ng-click="delete.open(script)" data-toggle="modal"> <i class="fa fa-trash"></i> </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div ng-controller="SchedulingController">
+                <legend>
+                    Scheduled Tasks
+                    <a class="btn btn-xs pull-right" style="margin-top: 10px;" ng-click="add.open()" data-toggle="modal">
+                        <i class="fa fa-plus"></i> add a schedule
+                    </a>
+                </legend>
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="center">
+                            <th> # </th>
+                            <th> Name </th>
+                            <th> Script </th>
+                            <th> Next fire time </th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="schedule in schedulings">
+                            <td> 1 </td>
+                            <td>{{ schedule.name }}</td>
+                            <td>{{ schedule.script }}</td>
+                            <td>{{ schedule.next_fire_time | date:'dd-MM-yyyy HH:mm' }}</td>
+                            <td>
+                                <a href="#" class="btn btn-xs btn-primary tooltips" ng-click="run(schedule)"
+                                    data-placement="top" data-original-title="Run"> <i class="fa fa-play"></i> </a>
+                                <a href="#" class="btn btn-xs btn-teal tooltips" ng-click="edit.open(schedule)"
+                                    data-placement="top" data-original-title="Edit">  <i class="fa fa-pencil"></i>  </a>
+                                <a href="#"  class="btn btn-xs btn-bricky tooltips" data-placement="top"
+                                    data-original-title="Delete" ng-click="delete.open(schedule)" data-toggle="modal">  <i class="fa fa-trash"></i>  </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

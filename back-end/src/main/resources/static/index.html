@@ -5,12 +5,13 @@
     <title>Alertcam</title>
 
     <link rel="stylesheet" type="text/css" href="css/angular-bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="libs/font-awesome-4.6.3/css/font-awesome.css"/>
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
     <link rel="stylesheet" type="text/css" href="css/main-responsive.css"/>
     <link rel="stylesheet" type="text/css" href="css/theme_light.css"/>
 </head>
-<body style="padding-top: 90px;">
-    
+<body style="/*padding-top: 90px;*/">
+
     <header class="front-end" ng-show="!authenticated">
         <div role="navigation" class="navbar navbar-default navbar-fixed-top space-top">
             <div class="container">
@@ -96,16 +97,72 @@
     			</div>
     		</div>
     	</div>
-    </header>    
-	
+        <div class="back-end">
+           	<div class="main-container">
+           		<div class="navbar-content">
+
+           			<div class="main-navigation navbar-collapse collapse">
+
+           				<div class="navigation-toggler">
+           					<i class="fa fa-angle-left"></i>
+           					<i class="fa fa-angle-right"></i>
+           				</div>
+
+           				<ul class="main-navigation-menu">
+           					<li ng-class="{ active: state=='dashboard', open: state=='dashboard' }">
+           						<a href="dashboard.html"><i class="fa fa-home"></i>
+           							<span class="title"> Dashboard </span><span class="selected"></span>
+           						</a>
+           					</li>
+           					<li ng-class="{ active: state=='surveillance', open: state=='surveillance' }">
+           						<a href="#" ui-sref="surveillance"><i class="fa fa-database"></i>
+           							<span class="title"> Surveillance Data </span>
+           						</a>
+                            </li>
+           					<li ng-class="{ active: state=='users', open: state=='users' }">
+           						<a href="#" ui-sref="users"><i class="fa fa-users"></i>
+           							<span class="title"> Manage Users </span><span class="selected"></span>
+           						</a>
+           					</li>
+           					<li ng-class="{ active: state=='tasks', open: state=='tasks' }">
+           						<a href="#" ui-sref="tasks"><i class="fa fa-tasks"></i>
+           							<span class="title"> Configure Tasks </span>
+           						</a>
+                               </li>
+           					<li>
+           						<a href="#"><i class="fa fa-exchange"></i>
+           							<span class="title"> Feedback </span>
+           						</a>
+                               </li>
+                           </ul>
+           				<!-- end: MAIN NAVIGATION MENU -->
+           			</div>
+           			<!-- end: SIDEBAR -->
+           		</div>
+
+           		<div class="main-content">
+                    <div ui-view></div>
+                </div>
+           	</div>
+        </div>
+    </header>
+
 	<div ui-view ng-show="!authenticated"></div>
-	
+
     <script src="js/angular-bootstrap.js"></script>
     <script src="app.js"></script>
+
     <script src="modules/users/users.js"></script>
     <script src="modules/users/controllers/users.controllers.js"></script>
     <script src="modules/users/controllers/mailing_lists.controllers.js"></script>
     <script src="modules/users/controllers/users_groups.controllers.js"></script>
     <script src="modules/users/controllers/events.controllers.js"></script>
+
+    <script src="modules/surveillance-data/surveillance-data.js"></script>
+    <script src="modules/surveillance-data/controllers/data-sources.controllers.js"></script>
+
+    <script src="modules/tasks-management/tasks-management.js"></script>
+    <script src="modules/tasks-management/controllers/scripts.controllers.js"></script>
+    <script src="modules/tasks-management/controllers/schedulings.controllers.js"></script>
 </body>
 </html>

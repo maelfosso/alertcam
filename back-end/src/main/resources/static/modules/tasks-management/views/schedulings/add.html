@@ -1,0 +1,111 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add an schedule</h3>
+</div>
+<div class="modal-body">
+    <form action="#" role="form" id="form">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="errorHandler alert alert-danger no-display">
+                    <i class="fa fa-times-sign"></i> You have some form errors. Please check below.
+                </div>
+                <div class="successHandler alert alert-success no-display">
+                    <i class="fa fa-ok"></i> Your form validation is successful!
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">
+                        Name <span class="symbol required"></span>
+                    </label>
+                    <input type="text" ng-model="schedule.name" placeholder="Insert your Full Name" class="form-control" id="fullname" name="fullname">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Script <span class="symbol required"></span>
+                    </label>
+                    <select ng-options="script.name for script in scripts" ng-model="schedule.script" class="form-control" id="script" name="script">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Start date <span class="symbol required"></span>
+                    </label>
+                    <input type="date" ng-model="schedule.start_date" class="form-control" name="start_date" id="start_date">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Time <span class="symbol required"></span>
+                    </label>
+                    <input type="text" ng-model="schedule.start_time" class="form-control" id="start_time" name="start_time">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Datasource <span class="symbol required"></span>
+                    </label>
+                    <select ng-options="ds.name for ds in datasources" ng-model="schedule.datasource" class="form-control" id="datasource" name="datasource">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">
+                        Mailing list <span class="symbol required"></span>
+                    </label>
+                    <select ng-options="ml.name for ml in mailings_list" ng-model="schedule.mailing_list" class="form-control" id="datasource" name="datasource">
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <p class="control-label">
+                        Periodicity <span class="symbol required"></span>
+                    </p>
+                    <div class="radio" ng-repeat="period in periodicity">
+                        <label for="{{ period }}">
+                            <input type="radio" name="periodicity" id="{{ period }}" ng-model="schedule.periodicity" value="{{ period }}"/> {{ period }}
+                        </label>
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <p class="control-label">
+                            Repetition rate <span class="symbol required"></span>
+                        </p>
+                        <div ng-if="schedule.periodicity == 'Hourly'">
+                            Every
+                            <input type="number" ng-model="schedule.repetition_rate" id="repetition_rate" name="repetition_rate"/>
+                            Hours
+                        </div>
+                        <div ng-if="schedule.periodicity == 'Daily'">
+                            Every
+                            <input type="number" ng-model="schedule.repetition_rate" id="repetition_rate" name="repetition_rate"/>
+                            Days
+                        </div>
+                        <div ng-if="schedule.periodicity == 'Weekly'">
+                            <div class="checkbox checkbox-inline" ng-repeat="w in weekly">
+                                <input type="checkbox" id="{{ w }}" ng-value="{{ w }}"/>
+                            </div>
+                        </div>
+                        <div ng-if="schedule.periodicity == 'Monthly'">
+                            <select ng-options="day in monthly" ng-model="schedule.repetition_rate" id="repetition_rate" name="repetition_rate">
+                            </select>
+                        </div>
+                        <div ng-if="schedule.periodicity == 'Yearly'">
+
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <span class="symbol required"></span>Required Fields
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success" type="submit" ng-click="submit()">
+        Create schedule <i class="fa fa-arrow-circle-right"></i>
+    </button>
+</div>

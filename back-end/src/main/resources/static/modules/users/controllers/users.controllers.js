@@ -98,14 +98,6 @@ users.controller('UsersController', ['$scope', '$uibModal', '$log', function($sc
         }
     ]
 
-    $scope.login = function() {
-    	
-    }
-    
-    $scope.logout = function() {
-    	
-    }
-    
     $scope.add = {
         open: function() {
             var modalInstance = $uibModal.open({
