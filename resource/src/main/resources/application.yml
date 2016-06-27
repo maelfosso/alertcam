@@ -9,14 +9,21 @@ security:
     
 spring:
   datasource:
+    platform: mysql
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/alercam
+    url: jdbc:mysql://localhost:3306/alertcam
     username: root
     password: mael
     
+    test-while-idle: true
+    validation-query: SELECT 1
+   
   jpa:
     database-platform: org.hibernate.dialect.MySQL5Dialect
     show-sql: true
+    generate-ddl: true
     hibernate:
       ddl-auto: update
+
       
+   

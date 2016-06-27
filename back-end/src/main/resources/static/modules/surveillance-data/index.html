@@ -42,6 +42,9 @@
                         <tr class="center">
                             <th> # </th>
                             <th> Name </th>
+                            <th> DB Server </th>
+                            <th> Username </th>
+                            <th> Password </th>
                             <th> Attached event </th>
                             <th> </th>
                         </tr>
@@ -50,6 +53,9 @@
                         <tr ng-repeat="ds in dsl">
                             <td> 1 </td>
                             <td>{{ ds.name }}</td>
+                            <td>{{ ds.dbServer }}</td>
+                            <td>{{ ds.dbUsername }}</td>
+                            <td>{{ ds.dbPassword }}</td>
                             <td>{{ ds.event }}</td>
                             <td>
                                 <a href="#"> Set TPP Fields</a>

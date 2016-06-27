@@ -1,22 +1,38 @@
-package com.cpc.alertcam.resource.model;
+package com.cpc.alertcam.resource.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "datasources")
 public class Datasource {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
+	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "source_type")
 	private String sourceType;
+	
+	@Column(name = "db_server")
 	private String dbServer;
+	
+	@Column(name = "db_username")
 	private String dbUsername;
+	
+	@Column(name = "db_password")
 	private String dbPassword;
+	
+	@Column(name = "event")
 	private String event;
+	
 	
 	public Long getId() {
 		return id;
@@ -67,6 +83,14 @@ public class Datasource {
 		this.event = event;
 	}
 	
+	public void update(Datasource ds) {
+		this.name = ds.getName();
+		this.sourceType = ds.getSourceType();
+		this.dbServer = ds.getDbServer();
+		this.dbUsername = ds.getDbUsername();
+		this.dbPassword = ds.getDbPassword();
+		this.event = ds.getEvent();
+	}
 	
 	
 }

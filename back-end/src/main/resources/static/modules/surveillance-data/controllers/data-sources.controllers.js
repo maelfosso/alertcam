@@ -1,22 +1,25 @@
 var ds = angular.module('alertcam.surveillance');
 
-ds.controller('DatasourceController', function($scope, $uibModal, $log) {
+ds.controller('DatasourceController', function($scope, $http, $uibModal, $log) {
 
+	
     $scope.add = {
         open: function() {
             var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: 'modules/surveillance-data/views/data-sources/add.html',
-                controller: 'AddDatasource',
-                /* resolve: {
-                    items: function () {
-                        return $scope.items;
-                    }
-                } */
+                controller: 'AddDatasource'
             });
 
-            modalInstance.result.then(function (user) {
-                // $scope.selected = selectedItem;
+            modalInstance.result.then(function (ds) {            	
+            	$http.post('resource/surveillance/data-sources', ds)
+            		.success(function(response) {
+            			$log.info(response)
+            			$scope.dsl = response;
+            		})
+            		.error(function(error) {
+            			$log.error(error);
+            		})
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -37,7 +40,15 @@ ds.controller('DatasourceController', function($scope, $uibModal, $log) {
             });
 
             modalInstance.result.then(function (nds) {
-                // $scope.selected = selectedItem;
+                console.log(nds);
+                
+            	$http.put("resource/surveillance/data-sources/" + nds.id, nds)
+            		.success(function(result) {
+            			console.log(result);
+            		})
+            		.error(function(error) {
+            			console.log(error);
+            		})
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -57,8 +68,16 @@ ds.controller('DatasourceController', function($scope, $uibModal, $log) {
                 }
             });
 
-            modalInstance.result.then(function (nds) {
-                // $scope.selected = selectedItem;
+            modalInstance.result.then(function (ds) {
+            	console.log(ds);
+            	
+            	$http.delete("resource/surveillance/data-sources/" + ds.id)
+	        		.success(function(result) {
+	        			console.log(result);
+	        		})
+	        		.error(function(error) {
+	        			console.log(error);
+	        		});
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -99,14 +118,20 @@ ds.controller('DatasourceController', function($scope, $uibModal, $log) {
 });
 
 
-ds.controller('AddDatasource', function($scope, $uibModalInstance) {
+ds.controller('AddDatasource', function($scope, $uibModalInstance, $log) {
     $scope.sources_types = ['MySQL', 'PosGre', 'Oracle'];
     $scope.events = ['influenza'];
+    $scope.action = 'Add';
     
     $scope.submit = function () {
+    	
         $uibModalInstance.close($scope.ds);
     };
-
+    
+    $scope.test = function() {
+    	
+    }
+    
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
@@ -115,8 +140,11 @@ ds.controller('AddDatasource', function($scope, $uibModalInstance) {
 
 ds.controller('EditDatasource', function($scope, $uibModalInstance, ds) {
     $scope.ds = ds;
-
-    $scope.change = function () {
+    $scope.sources_types = ['MySQL', 'PosGre', 'Oracle'];
+    $scope.events = ['influenza'];
+    $scope.action = 'Update';
+    
+    $scope.submit = function () {
         $uibModalInstance.close($scope.ds);
     };
 
@@ -129,7 +157,8 @@ ds.controller('EditDatasource', function($scope, $uibModalInstance, ds) {
 ds.controller('DeleteDatasource', function($scope, $uibModalInstance, ds) {
     $scope.ds = ds;
 
-    $scope.change = function () {
+    $scope.delete = function () {
+    	
         $uibModalInstance.close($scope.ds);
     };
 
@@ -151,3 +180,9 @@ ds.controller('QueriesDatasource', function($scope, $uibModalInstance, ds) {
     };
 
 });
+
+
+/*1 Roi 19: 16, 19-21
+Dallat 5: 1, 13-18
+Lu 9: 51-62*/
+
