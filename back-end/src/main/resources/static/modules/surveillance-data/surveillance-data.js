@@ -10,12 +10,6 @@ angular.module('alertcam.surveillance', [])
             templateUrl: "modules/surveillance-data/index.html",
             controller: function($rootScope, $http, $scope) {
                 $rootScope.state = "surveillance";
-
-                /*$scope.dsl = [
-                    { name: "influenza_ds", event: "influenza" },
-                    { name: "Surveillance Grippe", event: "influenza" },
-                    { name : "test", event: "influenza" }
-                ]*/
                 
                 $http.get('/resource/surveillance/data-sources')
                 	.success(function(response) {

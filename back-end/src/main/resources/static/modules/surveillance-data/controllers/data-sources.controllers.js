@@ -2,7 +2,6 @@ var ds = angular.module('alertcam.surveillance');
 
 ds.controller('DatasourceController', function($scope, $http, $uibModal, $log) {
 
-	
     $scope.add = {
         open: function() {
             var modalInstance = $uibModal.open({
@@ -14,7 +13,7 @@ ds.controller('DatasourceController', function($scope, $http, $uibModal, $log) {
             modalInstance.result.then(function (ds) {            	
             	$http.post('resource/surveillance/data-sources', ds)
             		.success(function(response) {
-            			$log.info(response)
+            			// $log.info(response)
             			$scope.dsl = response;
             		})
             		.error(function(error) {
@@ -44,7 +43,8 @@ ds.controller('DatasourceController', function($scope, $http, $uibModal, $log) {
                 
             	$http.put("resource/surveillance/data-sources/" + nds.id, nds)
             		.success(function(result) {
-            			console.log(result);
+            			// console.log(result);
+            			$scope.dsl = result;
             		})
             		.error(function(error) {
             			console.log(error);
@@ -74,6 +74,7 @@ ds.controller('DatasourceController', function($scope, $http, $uibModal, $log) {
             	$http.delete("resource/surveillance/data-sources/" + ds.id)
 	        		.success(function(result) {
 	        			console.log(result);
+	        			$scope.dsl = result;
 	        		})
 	        		.error(function(error) {
 	        			console.log(error);
@@ -118,7 +119,7 @@ ds.controller('DatasourceController', function($scope, $http, $uibModal, $log) {
 });
 
 
-ds.controller('AddDatasource', function($scope, $uibModalInstance, $log) {
+ds.controller('AddDatasource', function($scope, $http, $uibModalInstance, $log) {
     $scope.sources_types = ['MySQL', 'PosGre', 'Oracle'];
     $scope.events = ['influenza'];
     $scope.action = 'Add';
@@ -129,7 +130,20 @@ ds.controller('AddDatasource', function($scope, $uibModalInstance, $log) {
     };
     
     $scope.test = function() {
-    	
+    	$http.post('resource/surveillance/test-connexion', $scope.ds)
+			.success(function(response) {
+				$scope.success = true;
+				$scope.error = false;
+				
+				$scope.message = response;
+			})
+			.error(function(error) {
+				// $log.error(error);
+				$scope.error = true; 
+				$scope.success = false;
+				
+				$scope.message = error;
+			})
     }
     
     $scope.cancel = function () {
@@ -138,7 +152,7 @@ ds.controller('AddDatasource', function($scope, $uibModalInstance, $log) {
 
 });
 
-ds.controller('EditDatasource', function($scope, $uibModalInstance, ds) {
+ds.controller('EditDatasource', function($scope, $http, $uibModalInstance, ds) {
     $scope.ds = ds;
     $scope.sources_types = ['MySQL', 'PosGre', 'Oracle'];
     $scope.events = ['influenza'];
@@ -148,6 +162,23 @@ ds.controller('EditDatasource', function($scope, $uibModalInstance, ds) {
         $uibModalInstance.close($scope.ds);
     };
 
+    $scope.test = function() {
+    	$http.post('resource/surveillance/test-connexion', $scope.ds)
+			.success(function(response) {
+				$scope.success = true;
+				$scope.error = false;
+				
+				$scope.message = response;
+			})
+			.error(function(error) {
+				// $log.error(error);
+				$scope.error = true; 
+				$scope.success = false;
+				
+				$scope.message = error;
+			})
+    }
+    
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };

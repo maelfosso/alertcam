@@ -103,14 +103,9 @@
 
            			<div class="main-navigation navbar-collapse collapse">
 
-           				<div class="navigation-toggler">
-           					<i class="fa fa-angle-left"></i>
-           					<i class="fa fa-angle-right"></i>
-           				</div>
-
            				<ul class="main-navigation-menu">
            					<li ng-class="{ active: state=='dashboard', open: state=='dashboard' }">
-           						<a href="dashboard.html"><i class="fa fa-home"></i>
+           						<a href="#" ui-sref="dashboard"><i class="fa fa-home"></i>
            							<span class="title"> Dashboard </span><span class="selected"></span>
            						</a>
            					</li>
@@ -150,6 +145,7 @@
 	<div ui-view ng-show="!authenticated"></div>
 
     <script src="js/angular-bootstrap.js"></script>
+    <!-- <script src="js/checklist-model.js"></script> -->
     <script src="app.js"></script>
 
     <script src="modules/users/users.js"></script>
@@ -164,5 +160,7 @@
     <script src="modules/tasks-management/tasks-management.js"></script>
     <script src="modules/tasks-management/controllers/scripts.controllers.js"></script>
     <script src="modules/tasks-management/controllers/schedulings.controllers.js"></script>
+    
+    <script src="modules/dashboard/dashboard.js"></script>
 </body>
 </html>

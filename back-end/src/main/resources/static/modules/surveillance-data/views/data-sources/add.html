@@ -69,6 +69,14 @@
             <div class="col-md-12">
                 <div>
                     <span class="symbol required"></span>Required Fields
+                    
+                    <div class="errorHandler alert alert-danger" ng-if="error">
+	                    <i class="fa fa-times-sign"></i> {{ message.content }}
+	                </div>
+	                <div class="successHandler alert alert-success" ng-if="success">
+	                    <i class="fa fa-ok"></i> Connexion successful.
+	                </div>
+
                     <hr>
                 </div>
             </div>

@@ -1,12 +1,12 @@
 var schedulings = angular.module('alertcam.tasks');
 
-schedulings.controller('SchedulingController', function($scope, $uibModal, $log) {
+schedulings.controller('SchedulingController', function($scope, $http, $uibModal, $log) {
 
-    $scope.schedulings = [
+    /*$scope.schedulings = [
         { name : "Calheat", script: "CalendarHeat", next_fire_time: "22-06-2016 20:01" },
         { name : "CunsumINF", script: "cusum", next_fire_time: "22-06-2016 17:01" },
         { name : "Farrington", script: "Farrington", next_fire_time: "22-06-2016 20:01" }
-    ]
+    ]*/
 
     $scope.periodicity = ["Once", "Hourly", "Daily", "Weekly", "Monthly", "Yearly"];
 
@@ -26,8 +26,17 @@ schedulings.controller('SchedulingController', function($scope, $uibModal, $log)
                 }
             });
 
-            modalInstance.result.then(function (user) {
-                // $scope.selected = selectedItem;
+            modalInstance.result.then(function (scheduled) {
+                console.log(scheduled);
+            	$http.post('resource/tasks-management/scheduled-tasks', scheduled)
+	        		.success(function(response) {
+	        			// $log.info(response)
+	        			$scope.schedulings = response;
+	        		})
+	        		.error(function(error) {
+	        			$log.error(error);
+	        		})
+        		
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -35,23 +44,34 @@ schedulings.controller('SchedulingController', function($scope, $uibModal, $log)
     }
 
     $scope.edit = {
-        open: function(scheduling) {
+        open: function(schedule) {
             var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: 'modules/tasks-management/views/schedulings/add.html',
                 controller: 'EditSchedule',
                 resolve: {
-                    schedulings: function () {
-                        return schedulings;
+                    schedule: function () {
+                        return schedule;
                     },
                     periodicity: function() {
                         return $scope.periodicity;
+                    },
+                    monthly: function() {
+                        return new Array(31);
                     }
                 }
             });
 
-            modalInstance.result.then(function (nscheduling) {
-                // $scope.selected = selectedItem;
+            modalInstance.result.then(function (nschedule) {
+            	$http.put("resource/tasks-management/scheduled-tasks/" + nschedule.id, nschedule)
+	        		.success(function(result) {
+	        			// console.log(result);
+	        			$scope.schedulings = result;
+	        		})
+	        		.error(function(error) {
+	        			console.log(error);
+	        		})
+        		
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -66,13 +86,21 @@ schedulings.controller('SchedulingController', function($scope, $uibModal, $log)
                 controller: 'DeleteSchedule',
                 resolve: {
                     schedule: function () {
-                        return schedule;
+                        return scheduling;
                     }
                 }
             });
 
-            modalInstance.result.then(function (nscheduling) {
-                // $scope.selected = selectedItem;
+            modalInstance.result.then(function (schedule) {
+            	$http.delete("resource/tasks-management/scheduled-tasks/" + schedule.id)
+	        		.success(function(result) {
+	        			$scope.schedulings = result;
+	        		})
+	        		.error(function(error) {
+	        			$scope.error = error;
+	        			console.log(error);
+	        		});
+            	
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -113,13 +141,57 @@ schedulings.controller('SchedulingController', function($scope, $uibModal, $log)
 });
 
 
-schedulings.controller('AddSchedule', function($scope, $uibModalInstance, periodicity, monthly) {
-    $scope.periodicity = periodicity;
+schedulings.controller('AddSchedule', function($scope, $http, $uibModalInstance, periodicity, monthly) {
+    $scope.periodicity = ["Once", "Hourly", "Daily", "Weekly", "Monthly", "Yearly"];
     $scope.weekly = ['Monday', "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    $scope.monthly = monthly
-
+    $scope.monthly = [] 
+    for (var i=1; i <= 31; i++) {
+    	$scope.monthly.push('Day ' + i);
+    }
+    $scope.mailing_list = ['Epidemio', 'Virologie'];
+    $scope.action = "Add";
+    
+    $scope.schedule = {
+    		start_date: new Date(),
+    		start_time: new Date()
+    }
+    $scope.month_select = [];
+    $http.get('resource/tasks-management/scripts')
+    	.success(function(response) {
+    		$scope.scripts = response;
+    		// console.log($scope.scripts);
+    	})
+    	.error(function(error) {
+    		$scope.error = error;
+    	});
+    $http.get('resource/surveillance/data-sources')
+    	.success(function(response) {
+    		$scope.datasources = response;
+    		// console.log($scope.datasources);
+    	})
+    	.error(function(error) {
+    		$scope.error = error;
+    	});
+    
+    $scope.date = {
+    	popup : false
+    }
+    
+    $scope.open_date = function() {
+    	$scope.date.popup = true;
+    };
+    
     $scope.submit = function () {
-        $uibModalInstance.close($scope.scheduling);
+    	var sd = $scope.schedule.start_date;
+    		st = $scope.schedule.start_time;
+    	var d = new Date(sd.getFullYear(), sd.getMonth(), sd.getDate(), st.getHours(), st.getMinutes(), st.getMilliseconds());
+    	$scope.schedule.start = d;
+    	
+    	if ($scope.schedule.periodicity == 'Weekly') {
+    		$scope.schedule.repetitionRate = $scope.schedule.repetitionRate.join("-");
+    	}
+    	console.log($scope.schedule);
+        $uibModalInstance.close($scope.schedule);
     };
 
     $scope.cancel = function () {
@@ -128,11 +200,65 @@ schedulings.controller('AddSchedule', function($scope, $uibModalInstance, period
 
 });
 
-schedulings.controller('EditSchedule', function($scope, $uibModalInstance, scheduling) {
-    $scope.schedulings = schedulings;
+schedulings.controller('EditSchedule', function($scope, $http, $uibModalInstance, schedule, monthly) {
+    $scope.schedule = schedule;
+    var sdt = new Date($scope.schedule.start);
+    console.log($scope.schedule);
+    
+    $scope.periodicity = ["Once", "Hourly", "Daily", "Weekly", "Monthly", "Yearly"];
+    $scope.weekly = ['Monday', "Tuesday", "Wenesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    $scope.monthly = [] 
+    for (var i=1; i <= 31; i++) {
+    	$scope.monthly.push('Day ' + i);
+    }
+    $scope.mailing_list = ['Epidemio', 'Virologie'];
+    $scope.action = "Update";
+    
+    $scope.schedule.start_date = new Date(sdt.getFullYear(), sdt.getMonth(), sdt.getDate());
+    $scope.schedule.start_time = sdt;
+    if ($scope.schedule.periodicity == 'Weekly') {
+    	$scope.schedule.repetitionRate = $scope.schedule.repetitionRate.split('-');
+    	console.log($scope.schedule.repetitionRate);
+    }
+    
 
-    $scope.change = function () {
-        $uibModalInstance.close($scope.scheduling);
+    $http.get('resource/tasks-management/scripts')
+    	.success(function(response) {
+    		$scope.scripts = response;
+    		// console.log($scope.scripts);
+    	})
+    	.error(function(error) {
+    		$scope.error = error;
+    	});
+    $http.get('resource/surveillance/data-sources')
+    	.success(function(response) {
+    		$scope.datasources = response;
+    		// console.log($scope.datasources);
+    	})
+    	.error(function(error) {
+    		$scope.error = error;
+    	});
+    
+    $scope.date = {
+    	popup : false
+    }
+    
+    $scope.open_date = function() {
+    	$scope.date.popup = true;
+    };
+    
+    $scope.submit = function () {
+    	var sd = $scope.schedule.start_date;
+    		st = $scope.schedule.start_time;
+    	var d = new Date(sd.getFullYear(), sd.getMonth(), sd.getDate(), st.getHours(), st.getMinutes(), st.getMilliseconds());
+    	$scope.schedule.start = d;
+    	
+    	if ($scope.schedule.periodicity == 'Weekly') {
+    		$scope.schedule.repetitionRate = $scope.schedule.repetitionRate.join("-");
+    	}
+    	console.log($scope.schedule);
+    	
+        $uibModalInstance.close($scope.schedule);
     };
 
     $scope.cancel = function () {
@@ -141,11 +267,11 @@ schedulings.controller('EditSchedule', function($scope, $uibModalInstance, sched
 
 });
 
-schedulings.controller('DeleteSchedule', function($scope, $uibModalInstance, scheduling) {
-    $scope.schedulings = schedulings;
+schedulings.controller('DeleteSchedule', function($scope, $uibModalInstance, schedule) {
+    $scope.schedule = schedule;
 
-    $scope.change = function () {
-        $uibModalInstance.close($scope.scheduling);
+    $scope.delete = function () {
+        $uibModalInstance.close($scope.schedule);
     };
 
     $scope.cancel = function () {
@@ -154,7 +280,7 @@ schedulings.controller('DeleteSchedule', function($scope, $uibModalInstance, sch
 
 });
 
-schedulings.controller('QueriesSchedule', function($scope, $uibModalInstance, scheduling) {
+schedulings.controller('RunSchedule', function($scope, $uibModalInstance, scheduling) {
     $scope.schedulings = schedulings;
 
     $scope.change = function () {

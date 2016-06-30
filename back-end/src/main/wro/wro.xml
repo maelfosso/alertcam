@@ -13,6 +13,10 @@
     	<js>webjar:angular-ui-router/1.0.0-alpha.5/angular-ui-router.js</js>
     	<js>webjar:angular-ui-bootstrap/1.3.3/ui-bootstrap.js</js>
     	<js>webjar:angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.js</js>
+    	<js>webjar:checklist-model/0.9.0/checklist-model.js</js>
+    	<js>webjar:angular-file-upload/11.0.0/ng-file-upload-shim.js</js>
+    	<js>webjar:angular-file-upload/11.0.0/ng-file-upload.js</js>
+    	<js>webjar:d3js/3.5.17/d3.js</js>
 	</group>
 	<!-- group name="alertcam-tools">
 		<css>file:${project.basedir}/src/main/resources/static/css/main.css</css>

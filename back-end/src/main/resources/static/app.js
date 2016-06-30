@@ -5,10 +5,13 @@ angular.module('alertcam', [
   // 'ngRoute',
   'ui.router',
   'ui.bootstrap',
+  'checklist-model',
+  'ngFileUpload',
 
   'alertcam.users',
   'alertcam.surveillance',
-  'alertcam.tasks'
+  'alertcam.tasks',
+  'alertcam.dashboard'
 
 
 ])
@@ -17,7 +20,7 @@ angular.module('alertcam', [
 })
 .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 
-	$urlRouterProvider.otherwise("surveillance"); // welcome: non connecte; home: connecte
+	$urlRouterProvider.otherwise("dashboard"); // welcome: non connecte; home: connecte
 
 	$stateProvider
 		.state("welcome", {

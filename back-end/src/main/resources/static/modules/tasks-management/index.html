@@ -1,27 +1,6 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <ol class="breadcrumb">
-                <li>
-                    <i class="fa fa-file-o"></i>
-                    <a href="#">
-                        Layouts
-                    </a>
-                </li>
-                <li class="active">
-                    Footer Fixed
-                </li>
-                <li class="search-box">
-                    <form class="sidebar-search">
-                        <div class="form-group">
-                            <input type="text" placeholder="Start Searching...">
-                            <button class="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                </li>
-            </ol>
             <div class="page-header">
                 <h1>Tasks Management <small>Scripts, Tasks scheduling, Analysis scripts</small></h1>
             </div>
@@ -50,16 +29,16 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="script in scripts" ng-class="{ success : script.scheduled == true }">
-                            <td> 1 </td>
+                            <td>{{ script.id }}</td>
                             <td>{{ script.name }}</td>
-                            <td>{{ script.last_updated}}</td>
-                            <td>{{ script.associated_disease }}</td>
-                            <td>{{ script.type }}</td>
+                            <td>{{ script.lastUpdated | date: "dd-MM-yyyy"}}</td>
+                            <td>{{ script.associatedDisease }}</td>
+                            <td>{{ script.scriptType }}</td>
                             <td>
                                 <a href="#" class="btn btn-xs btn-teal tooltips" ng-click="edit.open(script)"
                                     data-placement="top" data-original-title="Edit"> <i class="fa fa-pencil"></i> </a>
-                                <a href="#"  class="btn btn-xs btn-bricky tooltips" data-placement="top"
-                                    data-original-title="Delete" ng-click="delete.open(script)" data-toggle="modal"> <i class="fa fa-trash"></i> </a>
+                                <a href="#" class="btn btn-xs btn-bricky tooltips" ng-click="delete.open(script)"
+                                	data-placement="top" data-original-title="Delete"> <i class="fa fa-trash"></i> </a>
                             </td>
                         </tr>
                     </tbody>
@@ -86,9 +65,9 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="schedule in schedulings">
-                            <td> 1 </td>
+                            <td>{{ schedule.id }}</td>
                             <td>{{ schedule.name }}</td>
-                            <td>{{ schedule.script }}</td>
+                            <td>{{ schedule.script.name }}</td>
                             <td>{{ schedule.next_fire_time | date:'dd-MM-yyyy HH:mm' }}</td>
                             <td>
                                 <a href="#" class="btn btn-xs btn-primary tooltips" ng-click="run(schedule)"
