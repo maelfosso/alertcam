@@ -1,7 +1,5 @@
 package com.cpc.alertcam.resource.controllers;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cpc.alertcam.resource.ResourceApplication;
 import com.cpc.alertcam.resource.models.Event;
-import com.cpc.alertcam.resource.models.Message;
 import com.cpc.alertcam.resource.repositories.EventRepository;
 
 @RestController
@@ -32,7 +28,7 @@ public class EventController {
 		this.eventRepository = eventRepository;
 	}
 	
-	@RequestMapping(value = "/surveillance/data-sources", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/users/events", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Event>> getAllEvents() {
 		List<Event> events = this.eventRepository.findAll();
 		if (events.isEmpty()) {
@@ -42,20 +38,20 @@ public class EventController {
 		return new ResponseEntity<List<Event>>(events, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/surveillance/data-sources/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/users/events/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> getEvent(@PathVariable("id") Long id) {
 		
-		return new ResponseEntity<Event>(this.eventRepository.getOne(id), HttpStatus.OK);
+		return new ResponseEntity<Event>(this.eventRepository.findOne(id), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/surveillance/data-sources", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/users/events", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Event>> createEvent(@RequestBody Event event) {
 		this.eventRepository.save(event);
 		
 		return new ResponseEntity<List<Event>>(this.eventRepository.findAll(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/surveillance/data-sources/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/users/events/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Event>> updateEvent(@PathVariable("id") Long id, @RequestBody Event event) {
 		Event ds = this.eventRepository.getOne(id);
 		ds.update(event);
@@ -64,15 +60,11 @@ public class EventController {
 		return new ResponseEntity<List<Event>>(this.eventRepository.findAll(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/surveillance/data-sources/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/users/events/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Event>> deleteEvent(@PathVariable("id") Long id) {
 		this.eventRepository.delete(id);
 		
 		return new ResponseEntity<List<Event>>(this.eventRepository.findAll(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/surveillance/data-sources/test-connexion", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void testEventConnexion(@RequestBody Event event) {
-		
-	}
 }

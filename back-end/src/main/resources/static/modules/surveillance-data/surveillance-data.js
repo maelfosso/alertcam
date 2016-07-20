@@ -1,11 +1,10 @@
-'use strict';
-
 angular.module('alertcam.surveillance', [])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
     $stateProvider
         .state("surveillance", {
+        	abstract: true,
             url: "/surveillance",
             templateUrl: "modules/surveillance-data/index.html",
             controller: function($rootScope, $http, $scope) {
@@ -21,6 +20,15 @@ angular.module('alertcam.surveillance', [])
                 		$scope.error = error;
                 	});
             } 
+        })
+        .state("surveillance.list", {
+        	url: "",
+        	templateUrl: "modules/surveillance-data/views/data-sources/list.html"
+        })
+        .state("surveillance.add", {
+        	url: "/add",
+        	templateUrl: "modules/surveillance-data/views/data-sources/wizard.html",
+        	controller: 'AddDatasource'
         })
     ;
 })

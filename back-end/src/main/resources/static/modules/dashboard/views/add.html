@@ -1,0 +1,206 @@
+<div ng-controller="AddDashboard">
+	<div id="wizard" class="swMain">
+		<ul>
+			<li>
+				<a href="#step-1">
+					<div class="stepNumber">
+						1
+					</div>
+					<span class="stepDesc"> Graphic
+						<br />
+						<small>Choose a graphic</small> 
+					</span>
+				</a>
+			</li>
+			<li>
+				<a href="#step-2">
+					<div class="stepNumber">
+						2
+					</div>
+					<span class="stepDesc"> Variables
+						<br />
+						<small>Choose the variables</small> 
+					</span>
+				</a>
+			</li>
+			<li>
+				<a href="#step-3">
+					<div class="stepNumber">
+						3
+					</div>
+					<span class="stepDesc"> Settings
+						<br />
+						<small>Configure the graphic</small> </span>
+				</a>
+			</li>
+		</ul>
+		<div id="step-1">
+			<h3>
+				Graphic
+				<small>Choose a graphic</small> 
+			</h3>
+			
+			<div class="row">
+				<div class="col-xs-6 col-md-3">
+					<div class="thumbnail">
+						<a href class="" ng-click="next('bar-chart')">
+							<img src="/img/bar-chart.png" alt="Bar chart" style="height:150px;"/>
+						</a>
+					
+						<div class="caption">Bar Chart</div>
+					</div>					
+				</div>
+				<div class="col-xs-6 col-md-3">
+					<div class="thumbnail">
+						<a href class="" ng-click="next('scatterplot')">
+							<img src="/img/scatter-plot.png" alt="Scatterplot" style="height:150px;"/>
+						</a>
+					
+						<div class="caption">Scatter Plot</div>
+					</div>
+				</div>
+				<div class="col-xs-6 col-md-3">
+					<div class="thumbnail">
+						<a href class="" ng-click="next('line-chart')">
+							<img src="/img/line-chart.png" alt="Line chart" style="height:150px;"/>
+						</a>
+					
+						<div class="caption">Line Chart</div>
+					</div>					
+				</div>
+				<div class="col-xs-6 col-md-3">
+					<div class="thumbnail">
+						<a href class=" ng-click="next('calendar')">
+							<img src="/img/calendar.png" alt="Calendar Heat" style="height:150px;"/>
+						</a>
+					
+						<div class="caption">Calendar Heat</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="step-2">
+			<h3>
+				Variables
+				<small>Choose the variables</small> 
+			</h3>
+			
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="form">
+						<fieldset>
+							<legend>Data sources</legend>
+							
+							<div class="form-group">
+								<label for="datasource"> Which data source ?</label>
+								<select class="form-control" ng-options="datasource.name for datasource in datasources" ng-model="ds" ng-change="variablesFromDs()"></select>
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend>Variables</legend>
+							
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="xvar">X axis</label>
+										<select class="form-control" ng-options="v.name for v in xVariables | omit: 'name == \'aux\''" ng-model="dashboard.xvar" ng-change="variableSelected()"></select>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>X type</label>
+										<select class="form-control" ng-options="t for t in types" ng-model="dashboard.x.type" ng-change="variableSelected()"></select>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="yvar">Y axis</label>
+										<select class="form-control" ng-options="v.name for v in yVariables | omit: 'name == \'aux\''" ng-model="dashboard.yvar" ng-change="variableSelected()"></select>
+									</div>								
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Y type</label>
+										<select class="form-control" ng-options="t for t in types" ng-model="dashboard.y.type" ng-change="variableSelected()"></select>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+				<div class="col-sm-8" ng-if="data">
+					<div ng-if="dashboard.graphic == 'bar-chart'" bar-chart test="true"
+							data="data" xtype="dashboard.x.type" ytype="dashboard.y.type"></div>
+					<div ng-if="dashboard.graphic == 'line-chart'" line-chart test="true"
+							data="data" xtype="dashboard.x.type" ytype="dashboard.y.type"></div>
+					<div ng-if="dashboard.graphic == 'scatter-plot'" scatter-plot test="true"
+							data="data" xtype="dashboard.x.type" ytype="dashboard.y.type"></div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-sm-2 col-sm-offset-3">
+					<button type="button" class="btn btn-light-grey back-step btn-block" ng-click="back()">
+						<i class="fa fa-circle-arrow-left"></i> Back
+					</button>
+				</div>
+				<div class="col-sm-2 col-sm-offset-3">
+					<button type="button" class="btn btn-success finish-step btn-block" ng-click="next()">
+						Next <i class="fa fa-arrow-circle-right"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div id="step-3">
+			<h3>
+				Settings
+				<small>Configure the graphic</small> 
+			</h3>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Title</label>
+								<input class="form-control" ng-model="dashboard.title" id="title" name="title"/>
+							</div>
+							<div class="form-group">
+								<label>Name of X axis</label>
+								<input class="form-control" ng-model="dashboard.x.axis" id="name.x.axis" name="name.x.axis"/>
+							</div>
+							<div class="form-group">
+								<label>Name of Y axis</label>
+								<input class="form-control" ng-model="dashboard.y.axis" id="name.y.axis" name="name.y.axis"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="col-md-6" ng-if="data">
+					<div ng-if="dashboard.graphic == 'bar-chart'" bar-chart test="true"
+							data="data" xtype="dashboard.x.type" ytype="dashboard.y.type"></div>
+					<div ng-if="dashboard.graphic == 'line-chart'" line-chart test="true"
+							data="data" xtype="dashboard.x.type" ytype="dashboard.y.type"></div>
+					<div ng-if="dashboard.graphic == 'scatter-plot'" scatter-plot test="true"
+							data="data" xtype="dashboard.x.type" ytype="dashboard.y.type"></div>
+				</div> -->
+			</div>
+			
+			
+			<div class="form-group">
+				<div class="col-sm-2 col-sm-offset-3">
+					<button type="button" class="btn btn-light-grey back-step btn-block" ng-click="back()">
+						<i class="fa fa-circle-arrow-left"></i> Back
+					</button>
+				</div>
+				<div class="col-sm-2 col-sm-offset-3">
+					<button type="button" class="btn btn-success finish-step btn-block" ng-click="next()">
+						Finish <i class="fa fa-arrow-circle-right"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

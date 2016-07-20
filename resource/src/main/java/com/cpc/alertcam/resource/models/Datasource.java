@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,14 +26,18 @@ public class Datasource {
 	@Column(name = "db_server")
 	private String dbServer;
 	
+	@Column(name = "db_name")
+	private String dbName;
+	
 	@Column(name = "db_username")
 	private String dbUsername;
 	
 	@Column(name = "db_password")
 	private String dbPassword;
 	
-	@Column(name = "event")
-	private String event;
+	@ManyToOne
+	@JoinColumn(name = "event_id", referencedColumnName = "id")
+	private Event event;
 	
 	
 	public Long getId() {
@@ -62,6 +68,13 @@ public class Datasource {
 		this.dbServer = dbServer;
 	}
 	
+	public String getDbName() {
+		return dbName;
+	}
+	public void setDbName(String dbName) {
+		this.dbName = dbName;
+	}
+	
 	public String getDbUsername() {
 		return dbUsername;
 	}
@@ -76,11 +89,18 @@ public class Datasource {
 		this.dbPassword = dbPassword;
 	}
 	
-	public String getEvent() {
+	public Event getEvent() {
 		return event;
 	}
-	public void setEvent(String event) {
+	public void setEvent(Event event) {
 		this.event = event;
+	}
+	
+	@Override
+	public String toString() {
+		return "Datasource [id=" + id + ", name=" + name + ", sourceType=" + sourceType + ", dbServer=" + dbServer
+				+ ", dbName=" + dbName + ", dbUsername=" + dbUsername + ", dbPassword=" + dbPassword + ", event="
+				+ event + "]";
 	}
 	
 	public void update(Datasource ds) {

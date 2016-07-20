@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,8 +25,9 @@ public class Script {
 	@Column(name = "last_updated")
 	private Date lastUpdated;
 	
-	@Column(name = "associated_disease")
-	private String associatedDisease;
+	@ManyToOne
+	@JoinColumn(name = "event_id", referencedColumnName = "id")
+	private Event associatedDisease;
 	
 	@Column(name = "script_type")
 	private String scriptType;
@@ -63,11 +66,11 @@ public class Script {
 		this.lastUpdated = lastUpdated;
 	}
 
-	public String getAssociatedDisease() {
+	public Event getAssociatedDisease() {
 		return associatedDisease;
 	}
 
-	public void setAssociatedDisease(String associatedDisease) {
+	public void setAssociatedDisease(Event associatedDisease) {
 		this.associatedDisease = associatedDisease;
 	}
 
@@ -98,7 +101,7 @@ public class Script {
 	@Override
 	public String toString() {
 		return "Script [id=" + id + ", name=" + name + ", lastUpdated=" + lastUpdated + ", associatedDisease="
-				+ associatedDisease + ", scriptType=" + scriptType + ", description=" + description + ", fileName=" + fileName
+				+ associatedDisease.getName() + ", scriptType=" + scriptType + ", description=" + description + ", fileName=" + fileName
 				+ "]";
 	}
 

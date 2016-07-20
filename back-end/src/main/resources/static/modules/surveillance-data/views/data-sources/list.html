@@ -1,0 +1,42 @@
+<div class="">
+    <legend>
+        List of data source
+        <a ui-sref="surveillance.add" class="btn btn-xs pull-right" style="margin-top: 10px;">
+            <i class="fa fa-plus"></i> add data source
+        </a>
+    </legend>
+    <table class="table table-hover">
+        <thead>
+            <tr class="center">
+                <th> # </th>
+                <th> Name </th>
+                <th> DB Server </th>
+                <th> DB Name </th>
+                <th> Username </th>
+                <th> Password </th>
+                <th> Attached event </th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="ds in dsl">
+                <td> 1 </td>
+                <td>{{ ds.name }}</td>
+                <td>{{ ds.dbServer }}</td>
+                <td>{{ ds.dbName }}</td>
+                <td>{{ ds.dbUsername }}</td>
+                <td>{{ ds.dbPassword }}</td>
+                <td>{{ ds.event.name }}</td>
+                <td>
+                    <a href="#" class="btn btn-xs btn-primary"> Set TPP Fields</a>
+                    <a href="#" class="btn btn-xs btn-primary tooltips" ng-click="queries.open(ds)"
+                        data-placement="top" data-original-title="Queries"> Queries </a>
+                    <a href="#" class="btn btn-xs btn-teal tooltips" ng-click="edit.open(ds)"
+                        data-placement="top" data-original-title="Edit"> <i class="fa fa-edit"></i> Edit </a>
+                    <a href="#"  class="btn btn-xs btn-bricky tooltips" data-placement="top"
+                        data-original-title="Delete" ng-click="delete.open(ds)" data-toggle="modal"> <i class="fa fa-trash"></i> Delete </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

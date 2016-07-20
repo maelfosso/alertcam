@@ -7,7 +7,9 @@ angular.module('alertcam', [
   'ui.bootstrap',
   'checklist-model',
   'ngFileUpload',
-
+  'dndLists',
+  'angular.filter',
+  
   'alertcam.users',
   'alertcam.surveillance',
   'alertcam.tasks',

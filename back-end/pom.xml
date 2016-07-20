@@ -181,9 +181,19 @@
 					    <version>0.9.0</version>
 					</dependency>
 					<dependency>
+					    <groupId>org.webjars.bower</groupId>
+					    <artifactId>d3</artifactId>
+					    <version>3.5.17</version>
+					</dependency>
+					<dependency>
+					    <groupId>org.webjars.bower</groupId>
+					    <artifactId>angular-drag-and-drop-lists</artifactId>
+					    <version>1.4.0</version>
+					</dependency>
+					<dependency>
 					    <groupId>org.webjars</groupId>
-					    <artifactId>d3js</artifactId>
-					    <version>3.5.2</version>
+					    <artifactId>angular-filter</artifactId>
+					    <version>0.4.9</version>
 					</dependency>
 				</dependencies>
 			</plugin>

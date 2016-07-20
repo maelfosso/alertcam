@@ -16,7 +16,9 @@
     	<js>webjar:checklist-model/0.9.0/checklist-model.js</js>
     	<js>webjar:angular-file-upload/11.0.0/ng-file-upload-shim.js</js>
     	<js>webjar:angular-file-upload/11.0.0/ng-file-upload.js</js>
-    	<js>webjar:d3js/3.5.17/d3.js</js>
+    	<js>webjar:angular-drag-and-drop-lists/1.4.0/angular-drag-and-drop-lists.js</js>
+    	<js>webjar:angular-filter/0.4.9/angular-filter.js</js>
+    	<js>webjar:d3/3.5.17/d3.js</js>
 	</group>
 	<!-- group name="alertcam-tools">
 		<css>file:${project.basedir}/src/main/resources/static/css/main.css</css>

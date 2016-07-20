@@ -1,31 +1,24 @@
 var events = angular.module('alertcam.users')
 
-events.controller('EventsController', ['$scope', '$uibModal', '$log', function($scope, $uibModal, $log) {
-
-    $scope.events = [
-        {
-            "id": 1, "name": "Yellow Fever", "description": "It's...."
-        },
-        {
-            "id": 2, "name": "Influenza", "description": "It's...."
-        }
-    ];
+events.controller('EventsController', ['$scope', '$uibModal', '$log', '$http', function($scope, $uibModal, $log, $http) {
 
     $scope.addEvent = {
         open: function() {
             var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: 'modules/users/views/events/event_add.html',
-                controller: 'AddEvent',
-                /* resolve: {
-                    items: function () {
-                        return $scope.items;
-                    }
-                } */
+                controller: 'AddEvent'
             });
 
             modalInstance.result.then(function (event) {
-                // $scope.selected = selectedItem;
+            	$http.post('/resource/users/events', event)
+            	.success(function(response) {
+            		$scope.events = response            		
+            	})
+            	.error(function(error) {
+            		$scope.error = error;
+            	});
+            	
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -45,8 +38,16 @@ events.controller('EventsController', ['$scope', '$uibModal', '$log', function($
                 }
             });
 
-            modalInstance.result.then(function (event) {
-                // $scope.selected = selectedItem;
+            modalInstance.result.then(function (nevent) {
+            	console.log(nevent);
+            	
+            	$http.put("resource/users/events/" + nevent.id, nevent)
+        		.success(function(result) {        			
+        			$scope.events = result;
+        		})
+        		.error(function(error) {
+        			console.log(error);
+        		})
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -67,7 +68,13 @@ events.controller('EventsController', ['$scope', '$uibModal', '$log', function($
             });
 
             modalInstance.result.then(function (event) {
-                // $scope.selected = selectedItem;
+            	$http.delete("resource/users/events/" + event.id)
+        		.success(function(result) {
+        			$scope.events = result;
+        		})
+        		.error(function(error) {
+        			$scope.error = error;
+        		});
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });

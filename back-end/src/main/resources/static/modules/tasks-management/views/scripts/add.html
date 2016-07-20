@@ -34,7 +34,7 @@
                         Associated event <span class="symbol required"></span>
                     </label>
                     <div class="col-md-7">
-                        <select ng-options="event for event in events" ng-model="script.associatedDisease" class="form-control" id="associated_event" name="associated_event">
+                        <select ng-options="event.name for event in events track by event.id" ng-model="script.associatedDisease" class="form-control" id="associated_event" name="associated_event">
                         </select>
                     </div>
                 </div>

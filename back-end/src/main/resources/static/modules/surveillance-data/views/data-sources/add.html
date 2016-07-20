@@ -39,6 +39,14 @@
                     </div>
                 </div>
                 <div class="form-group">
+                	<label class="col-md-5 control-label">
+                        Database name <span class="symbol required"></span>
+                    </label>
+                    <div class="col-md-7">
+                        <input type="text" ng-model="ds.dbName" class="form-control" name="db_name" id="db_name">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-md-5 control-label">
                         Database username <span class="symbol required"></span>
                     </label>
@@ -59,7 +67,7 @@
                         Associated Event Under Surveillance <span class="symbol required"></span>
                     </label>
                     <div class="col-md-7">
-                        <select ng-options="event for event in events" ng-model="ds.event" class="form-control" id="event" name="event">
+                        <select ng-options="event.name for event in events track by event.id" ng-model="ds.event" class="form-control" id="event" name="event">
                         </select>
                     </div>
                 </div>

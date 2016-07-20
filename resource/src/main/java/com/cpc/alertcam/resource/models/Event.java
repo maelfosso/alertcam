@@ -21,6 +21,13 @@ public class Event {
 	@Column(name = "description")
 	private String description;
 	
+	public Long getId() {
+		return id;
+	}
+	
+	public void setLong(Long id) {
+		this.id = id;
+	}
 	
 	public String getName() {
 		return name;

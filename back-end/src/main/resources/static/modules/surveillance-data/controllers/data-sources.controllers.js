@@ -1,19 +1,25 @@
 var ds = angular.module('alertcam.surveillance');
 
 ds.controller('DatasourceController', function($scope, $http, $uibModal, $log) {
-
+	
+	angular.element('#wizard').smartWizard();
+    
     $scope.add = {
         open: function() {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: 'modules/surveillance-data/views/data-sources/add.html',
-                controller: 'AddDatasource'
+                templateUrl: 'modules/surveillance-data/views/data-sources/wizard.html',
+                controller: 'AddDatasource',
+                resolve: {
+                	events: function() {
+                		return $scope.events;
+                	}
+                }
             });
 
             modalInstance.result.then(function (ds) {            	
             	$http.post('resource/surveillance/data-sources', ds)
             		.success(function(response) {
-            			// $log.info(response)
             			$scope.dsl = response;
             		})
             		.error(function(error) {
@@ -34,6 +40,9 @@ ds.controller('DatasourceController', function($scope, $http, $uibModal, $log) {
                 resolve: {
                     ds: function () {
                         return ds;
+                    },
+                    events: function() {
+                    	return $scope.events;
                     }
                 }
             });
@@ -85,52 +94,121 @@ ds.controller('DatasourceController', function($scope, $http, $uibModal, $log) {
         }
     }
 
-    $scope.queries = {
-        form: {
-            sites: [
-                { id: '1', name: 'Site hors reseau (inclusion)' }
-            ],
-            count: [
-                { id: '1', name: 'Unknown' }
-            ],
-            date: [
-                { id: '1', name: 'Date Reception CPC' }
-            ]
-        },
-        open: function(ds) {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'modules/surveillance-data/views/data-sources/queries.html',
-                controller: 'QueriesDatasource',
-                resolve: {
-                    ds: function () {
-                        return ds;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function (nds) {
-                // $scope.selected = selectedItem;
-            }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
-        },
-    }
+    
 });
 
 
-ds.controller('AddDatasource', function($scope, $http, $uibModalInstance, $log) {
+ds.controller('AddDatasource', function($scope, $http, $log) {
     $scope.sources_types = ['MySQL', 'PosGre', 'Oracle'];
     $scope.events = ['influenza'];
     $scope.action = 'Add';
     
-    $scope.submit = function () {
+    $scope.graphics = [
+               { name: "Line", description: "Visualise how your indicator evolve according to the threshold" },
+               { name: "Cadran", description: "Follow many indicator at the same time" },
+               { name: "Radar", description: "Use it when your indicator is between range" }
+       ];
+    $http.get('resource/users/events')
+    	.success(function(response) {
+    		$scope.events = response;
+    	})
+    	.error(function(response) {
+    		$scope.error = response;
+    	})
+    ;  
+    
+    setTimeout(function(){ 
+    	angular.element('#wizard').smartWizard("goToStep", 1);
+	}, 100);
+   
+    $scope.onMoved = function(items, index) {
+    	var item = items[index];
     	
-        $uibModalInstance.close($scope.ds);
+    	$scope.columns = $scope.columns.filter(function(col) {
+    		return !(item.name == col.name && item.parent == col.parent && item.type == col.type);
+    	});
+    	items.splice(index, 1);
+    }
+    
+    $scope.next = function() {
+    	var currentStep = angular.element('#wizard').smartWizard("currentStep");
+    	console.log(currentStep);
+    	
+    	if (currentStep == 1) {
+    		/*$http.post('resource/surveillance/data-sources', $scope.ds)
+    		.success(function(response) {
+    			$scope.ds = response;
+    			$log.debug($scope.ds);
+    			
+    			$http.get('resource/surveillance/data-sources/' + $scope.ds.id + '/columns')
+    			.success(function(response) {
+    				$scope.columns = response;
+        			$scope.variables = [{name: "aux", type: "BIGINT", parent: "auxt"}];
+        			
+        			$scope.models = [
+    	                 {name : "columns", items: response, dragging: false},
+    	                 {name : "variables", items: [{name: "aux", type: "BIGINT", parent: "auxt"}], dragging: false}
+        			];
+        			
+        			// console.log($scope.models);
+        			
+        			angular.element('#wizard').smartWizard("goForward");
+    			})
+    			.error(function(error) {
+    				$log.error(error);
+    			})
+    			
+    		})
+    		.error(function(error) {
+    			$log.error(error);
+    		}) */
+    		angular.element("#wizard").smartWizard("goForward");
+    	} else if (currentStep == 2) {
+    		/*angular.forEach($scope.variables, function(v) {
+    			v.datasource = $scope.ds;
+    		})
+    		console.log("current step --- " + currentStep);
+    		console.log($scope.variables);
+    		
+    		$http.post('resource/surveillance/data-sources/variables', $scope.variables)
+    		.success(function(response) {
+    			$scope.uvars = response;
+    			
+    			console.log($scope.uvars);
+    			angular.element('#wizard').smartWizard("goForward");
+    		})
+    		.error(function(error) {
+    			$log.error(error);
+    		});*/
+    		angular.element("#wizard").smartWizard("goForward");
+    	} else if (currentStep == 3) {
+    		console.log("--- Step " + currentStep);
+    	}
+    	
+    	// angular.element('#wizard').smartWizard("goForward");
+    }
+    $scope.back = function() {
+    	angular.element('#wizard').smartWizard("goBackward");
+    }
+	
+    $scope.collapse = function($event) {
+    	var el = jQuery($event.target).parent().closest(".panel").children(".list-group");
+    	
+		if($($event.target).hasClass("collapses")) {
+			$($event.target).addClass("expand").removeClass("collapses");
+			el.slideUp(200);
+		} else {
+			$($event.target).addClass("collapses").removeClass("expand");
+			el.slideDown(200);
+		}
+    }
+    
+    $scope.submit = function () {
+        // $uibModalInstance.close($scope.ds);
     };
     
     $scope.test = function() {
-    	$http.post('resource/surveillance/test-connexion', $scope.ds)
+    	$http.post('resource/surveillance/data-sources/test-connexion', $scope.ds)
 			.success(function(response) {
 				$scope.success = true;
 				$scope.error = false;
@@ -147,23 +225,23 @@ ds.controller('AddDatasource', function($scope, $http, $uibModalInstance, $log) 
     }
     
     $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
+        // $uibModalInstance.dismiss('cancel');
     };
 
 });
 
-ds.controller('EditDatasource', function($scope, $http, $uibModalInstance, ds) {
+ds.controller('EditDatasource', function($scope, $http, $uibModalInstance, ds, events) {
     $scope.ds = ds;
     $scope.sources_types = ['MySQL', 'PosGre', 'Oracle'];
-    $scope.events = ['influenza'];
     $scope.action = 'Update';
+    $scope.events = events;
     
     $scope.submit = function () {
         $uibModalInstance.close($scope.ds);
     };
 
     $scope.test = function() {
-    	$http.post('resource/surveillance/test-connexion', $scope.ds)
+    	$http.post('resource/surveillance/data-sources/test-connexion', $scope.ds)
 			.success(function(response) {
 				$scope.success = true;
 				$scope.error = false;

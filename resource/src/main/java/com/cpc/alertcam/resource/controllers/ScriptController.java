@@ -34,12 +34,9 @@ public class ScriptController {
 	
 	public static String ROOT = "upload-dir";
 	
-	private final ResourceLoader resourceLoader;
-	
 	@Autowired
 	public ScriptController(ScriptRepository scriptRepository, ResourceLoader resourceLoader) {
 		this.scriptRepository = scriptRepository;
-		this.resourceLoader = resourceLoader;
 	}
 
 	@RequestMapping(value = "/tasks-management/scripts", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -79,20 +76,38 @@ public class ScriptController {
 				return new ResponseEntity<Message>(new Message(e.getMessage()), HttpStatus.BAD_REQUEST);
 			}
 			
-			Script s = this.scriptRepository.save(script);
+			this.scriptRepository.save(script);
 		}
 		
 		return new ResponseEntity<Message>(new Message("OK"), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/tasks-management/scripts/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Script>> updateScript(@PathVariable Long id, @RequestBody Script script) {
+	public ResponseEntity<Message> updateScript(@PathVariable Long id, @RequestParam("file") MultipartFile file, Script script) {
 		Script s = this.scriptRepository.getOne(id);
-		s.update(script);
+
+		if (s == null) {
+			return new ResponseEntity<Message>(new Message("That script doesn't exist"), HttpStatus.BAD_REQUEST);
+		}
 		
+		if (!file.isEmpty()) {
+			try {
+				file.getOriginalFilename();
+				if (Paths.get(ROOT, s.getFileName()).toFile().exists()) {
+					Files.delete(Paths.get(ROOT, s.getFileName()));
+				}
+				Files.copy(file.getInputStream(), Paths.get(ROOT, file.getOriginalFilename()));				
+			} catch(Exception e) {
+				logger.error(e.getMessage());
+					
+				return new ResponseEntity<Message>(new Message(e.getMessage()), HttpStatus.BAD_REQUEST);
+			}
+		}
+		
+		s.update(script);
 		s = this.scriptRepository.save(s);
 		
-		return new ResponseEntity<List<Script>>(this.scriptRepository.findAll(), HttpStatus.OK);
+		return new ResponseEntity<Message>(new Message("OK"), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/tasks-management/scripts/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)

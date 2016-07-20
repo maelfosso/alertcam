@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
     <link rel="stylesheet" type="text/css" href="css/main-responsive.css"/>
     <link rel="stylesheet" type="text/css" href="css/theme_light.css"/>
+    <link rel="stylesheet" type="text/css" href="css/graphic.css"/>
 </head>
 <body style="/*padding-top: 90px;*/">
 
@@ -105,22 +106,31 @@
 
            				<ul class="main-navigation-menu">
            					<li ng-class="{ active: state=='dashboard', open: state=='dashboard' }">
-           						<a href="#" ui-sref="dashboard"><i class="fa fa-home"></i>
+           						<a href="#" ui-sref="dashboard.list">
+           							<i class="fa fa-home"></i>
            							<span class="title"> Dashboard </span><span class="selected"></span>
            						</a>
+           						<ul class="sub-menu">
+           							<li ng-repeat="event in events">
+           								<a href="#{{event.id}}">{{ event.name }}</a>
+           							</li>
+           						</ul>
            					</li>
            					<li ng-class="{ active: state=='surveillance', open: state=='surveillance' }">
-           						<a href="#" ui-sref="surveillance"><i class="fa fa-database"></i>
+           						<a href="#" ui-sref="surveillance.list">
+           							<i class="fa fa-database"></i>
            							<span class="title"> Surveillance Data </span>
            						</a>
                             </li>
            					<li ng-class="{ active: state=='users', open: state=='users' }">
-           						<a href="#" ui-sref="users"><i class="fa fa-users"></i>
+           						<a href="#" ui-sref="users">
+           							<i class="fa fa-users"></i>
            							<span class="title"> Manage Users </span><span class="selected"></span>
            						</a>
            					</li>
            					<li ng-class="{ active: state=='tasks', open: state=='tasks' }">
-           						<a href="#" ui-sref="tasks"><i class="fa fa-tasks"></i>
+           						<a href="#" ui-sref="tasks">
+           							<i class="fa fa-tasks"></i>
            							<span class="title"> Configure Tasks </span>
            						</a>
                                </li>
@@ -145,7 +155,7 @@
 	<div ui-view ng-show="!authenticated"></div>
 
     <script src="js/angular-bootstrap.js"></script>
-    <!-- <script src="js/checklist-model.js"></script> -->
+    <script src="libs/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
     <script src="app.js"></script>
 
     <script src="modules/users/users.js"></script>
@@ -161,6 +171,10 @@
     <script src="modules/tasks-management/controllers/scripts.controllers.js"></script>
     <script src="modules/tasks-management/controllers/schedulings.controllers.js"></script>
     
-    <script src="modules/dashboard/dashboard.js"></script>
+    <script src="modules/dashboard/dashboard.js"></script> 
+    <script src="modules/dashboard/controllers/add.controllers.js"></script>
+    <script src="modules/dashboard/directives/bar-chart.js"></script>
+    <script src="modules/dashboard/directives/line-chart.js"></script>
+    <script src="modules/dashboard/directives/scatter-plot.js"></script>
 </body>
 </html>

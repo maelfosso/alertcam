@@ -1,0 +1,92 @@
+<div ng-repeat="event in events" id="{{ event.id }}">
+	<legend>
+		{{ event.name }}
+		
+        <a ui-sref="dashboard.add({ eventId: event.id })" class="btn btn-xs pull-right" style="margin-top: 10px;">
+            <i class="fa fa-plus"></i> add data source
+        </a>
+	</legend>
+	
+    <div class="row">
+		<div class="col-sm-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<i class="fa fa-line-chart"></i>
+					Calendar Heat des consultations par semaine
+					<div class="panel-tools">
+						<a class="btn btn-xs btn-link panel-collapse collapses" href ng-click="collapse($event)">
+							
+						</a>
+						<a class="btn btn-xs btn-link panel-config" href data-toggle="modal" ng-click="config(dashboard)">
+							<i class="fa fa-wrench"></i>
+						</a>
+						<a class="btn btn-xs btn-link panel-refresh" href data-toggle="modal" ng-click="refresh(dashboard)">
+							<i class="fa fa-refresh"></i>
+						</a>
+						<a class="btn btn-xs btn-link panel-close" href data-toggle="modal" ng-click="delete(dashboard)">
+							<i class="fa fa-times"></i>
+						</a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<img src="/img/calendar_heat.png" style="width: 500px; height: 500px;"/>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-5">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<i class="fa fa-line-chart"></i>
+							Nombre de consultation par Semaine
+							<div class="panel-tools">
+								<a class="btn btn-xs btn-link panel-collapse collapses" href ng-click="collapse($event)">
+								</a>
+								<a class="btn btn-xs btn-link panel-config" href data-toggle="modal">
+									<i class="fa fa-wrench"></i>
+								</a>
+								<a class="btn btn-xs btn-link panel-refresh" href>
+									<i class="fa fa-refresh"></i>
+								</a>
+								<a class="btn btn-xs btn-link panel-close" href>
+									<i class="fa fa-times"></i>
+								</a>
+							</div>
+						</div>
+						<div class="panel-body">
+							<img src="/img/nb_consult_semaine.png" style="width: 400px; height: 205px;"/>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<i class="fa fa-line-chart"></i>
+							Nombre de consultation par formation sanitaire
+							<div class="panel-tools">
+								<a class="btn btn-xs btn-link panel-collapse collapses" href ng-click="collapse($event)">
+								</a>
+								<a class="btn btn-xs btn-link panel-config" href="#panel-config" data-toggle="modal">
+									<i class="fa fa-wrench"></i>
+								</a>
+								<a class="btn btn-xs btn-link panel-refresh" href >
+									<i class="fa fa-refresh"></i>
+								</a>
+								<a class="btn btn-xs btn-link panel-close" href >
+									<i class="fa fa-times"></i>
+								</a>
+							</div>
+						</div>
+						<div class="panel-body">
+							<img src="/img/bar-chart.png" style="width: 400px; height: 205px;"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+			
+</div>
