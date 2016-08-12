@@ -7,7 +7,7 @@ angular.module("alertcam.dashboard", [])
 	    	abstract: true,
 	    	url: "/dashboard",
 	        templateUrl: "modules/dashboard/index.html",
-	        controller: function($rootScope, $http, $scope, $uibModal) {
+	        controller: function($rootScope, $http, $scope, $uibModal, $log) {
 	            $rootScope.state = "dashboard";
 	            
 	            $http.get('/resource/dashboards')
@@ -24,26 +24,15 @@ angular.module("alertcam.dashboard", [])
 	        	})
 	        	.error(function(error) {
 	        		$scope.error = error;
-	        	});
+	        	});           
 	            
 	            
-	            $scope.collapse = function($event) {
-	            	var el = jQuery($event.target).parent().closest(".panel").children(".panel-body");
-	            	
-	        		if($($event.target).hasClass("collapses")) {
-	        			$($event.target).addClass("expand").removeClass("collapses");
-	        			el.slideUp(200);
-	        		} else {
-	        			$($event.target).addClass("collapses").removeClass("expand");
-	        			el.slideDown(200);
-	        		}
-	            }
 	            
-	            $scope.config = function(dashboard) {
+	            $scope.configDashboard = function(dashboard) {
 	            	
 	            	var modalInstance = $uibModal.open({
 	            		 	animation: $scope.animationsEnabled,
-	            		 	templateUrl: '/modules/dashboard/views/config.html',
+	            		 	templateUrl: '/modules/dashboard/views/config-dashboard.html',
 	            		 	controller: function($scope, $uibModalInstance, dashboard) {
 	            		 		
 	            		 	},
@@ -59,6 +48,8 @@ angular.module("alertcam.dashboard", [])
             	    	
             	    });
 	            }
+	            
+	            
 	        } 
 	    })
 	    .state("dashboard.list", {

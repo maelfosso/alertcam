@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ResourceApplication /*extends WebSecurityConfigurerAdapter*/ {
 	
 	public static void main(String[] args) {
-		SpringApplication.run(ResourceApplication.class, args);
+		SpringApplication.run(ResourceApplication.class, args);		
 	}
 	
 }

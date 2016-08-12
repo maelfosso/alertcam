@@ -8,7 +8,7 @@ ds.controller('DatasourceController', function($scope, $http, $uibModal, $log) {
         open: function() {
             var modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: 'modules/surveillance-data/views/data-sources/wizard.html',
+                templateUrl: 'modules/surveillance-data/views/data-sources/add.html',
                 controller: 'AddDatasource',
                 resolve: {
                 	events: function() {
@@ -93,20 +93,35 @@ ds.controller('DatasourceController', function($scope, $http, $uibModal, $log) {
             });
         }
     }
+    
+    $scope.indicators = {
+		open: function(ds) {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: 'modules/surveillance-data/views/data-sources/indicators.html',
+				controller: "ListIndicators",
+				resolve: {
+					ds: function() {
+						return ds;
+					}
+				}
+			})
+		}
+    }
 
     
 });
 
 
-ds.controller('AddDatasource', function($scope, $http, $log) {
+ds.controller('AddDatasource', function($scope, $http, $log, $uibModalInstance) {
     $scope.sources_types = ['MySQL', 'PosGre', 'Oracle'];
     $scope.events = ['influenza'];
     $scope.action = 'Add';
     
     $scope.graphics = [
-               { name: "Line", description: "Visualise how your indicator evolve according to the threshold" },
-               { name: "Cadran", description: "Follow many indicator at the same time" },
-               { name: "Radar", description: "Use it when your indicator is between range" }
+               { name: "Line", description: "Visualise how your indicator evolve according to the threshold", type: "Threshold" },
+               { name: "Cadran", description: "Use it when your indicator is between range", type: "Range"},
+               { name: "Radar", description: "Follow many indicator at the same time" }
        ];
     $http.get('resource/users/events')
     	.success(function(response) {
@@ -183,6 +198,39 @@ ds.controller('AddDatasource', function($scope, $http, $log) {
     		angular.element("#wizard").smartWizard("goForward");
     	} else if (currentStep == 3) {
     		console.log("--- Step " + currentStep);
+    		
+    		var params = [];
+    		if (kpi.graphic.name == 'Line') {
+    			params.push({
+    				name: 'threshold',
+    				value: kpi.graphic.parameter.threshold
+    			});
+    		} else if (kpi.graphic.name == 'Cadran') {
+    			params.push({
+    				name: 'green',
+    				value: kpi.graphic.parameter.green
+    			});
+    			params.push({
+    				name: 'yellow',
+    				value: kpi.graphic.parameter.yellow
+    			});
+    			params.push({
+    				name: 'red',
+    				value: kpi.graphic.parameter.red
+    			});
+    		}
+    		kpi.graphic.parameters = params;
+    		
+    		$http.post('resource/surveillance/data-sources/indicators', $scope.variables)
+    		.success(function(response) {
+    			$scope.uvars = response;
+    			
+    			console.log($scope.uvars);
+    			// angular.element('#wizard').smartWizard("goForward");
+    		})
+    		.error(function(error) {
+    			$log.error(error);
+    		});
     	}
     	
     	// angular.element('#wizard').smartWizard("goForward");
@@ -204,7 +252,7 @@ ds.controller('AddDatasource', function($scope, $http, $log) {
     }
     
     $scope.submit = function () {
-        // $uibModalInstance.close($scope.ds);
+        $uibModalInstance.close($scope.ds);
     };
     
     $scope.test = function() {
@@ -225,7 +273,7 @@ ds.controller('AddDatasource', function($scope, $http, $log) {
     }
     
     $scope.cancel = function () {
-        // $uibModalInstance.dismiss('cancel');
+        $uibModalInstance.dismiss('cancel');
     };
 
 });

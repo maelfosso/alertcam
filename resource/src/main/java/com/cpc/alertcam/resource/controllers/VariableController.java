@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cpc.alertcam.resource.models.Datasource;
+import com.cpc.alertcam.resource.models.Option;
 import com.cpc.alertcam.resource.models.Variable;
 import com.cpc.alertcam.resource.repositories.DatasourceRepository;
 import com.cpc.alertcam.resource.repositories.VariableRepository;
@@ -25,7 +26,7 @@ public class VariableController {
 	
 	VariableRepository variableRepository;
 	DatasourceRepository datasourceRepository;
-	private Logger logger = LoggerFactory.getLogger(VariableController.class);
+	Logger logger = LoggerFactory.getLogger(VariableController.class);
 	
 	
 	@Autowired
@@ -34,19 +35,25 @@ public class VariableController {
 		this.datasourceRepository = datasourceRepository;
 	}
 	
-	@RequestMapping(value = "/surveillance/data-sources/variables", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Variable>> createVariables(@RequestBody ArrayList<Variable> variables) {
-		logger.debug(String.valueOf(variables.size()));
+	@RequestMapping(value = "/surveillance/data-sources/{datasource}/variables", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Variable>> createVariables(@PathVariable("datasource") Long datasource, @RequestBody ArrayList<Variable> variables) {
+		List<Variable> vars = new ArrayList<Variable>();
 		for(Variable v: variables) {
+			v.setDatasource(this.datasourceRepository.findOne(datasource));
+			
 			logger.debug(v.toString());
+			for(Option o: v.getOptions()) {
+				o.setVariable(v);
+			}
+			
+			vars.add(v);
 		}
-		
-		List<Variable> vars = this.variableRepository.save(variables);
+		vars = this.variableRepository.save(vars);
 		
 		return new ResponseEntity<List<Variable>>(vars, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/surveillance/data-sources/variables/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/surveillance/data-sources/{id}/variables", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Variable>> getAllVariables(@PathVariable("id") Long id) {
 		Datasource datasource = this.datasourceRepository.findOne(id);
 		
@@ -55,7 +62,19 @@ public class VariableController {
 		return new ResponseEntity<List<Variable>>(variables, HttpStatus.OK);
 	}
 	
-	
+	@RequestMapping(value = "/surveillance/data-sources/{id}/variables", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Variable>> updateVariables(@PathVariable("id") Long id, @RequestBody ArrayList<Variable> newVariables,
+						@RequestBody ArrayList<Variable> oldVariables) {
+		for(Variable v: oldVariables) {
+			this.variableRepository.delete(v);
+		}
+		
+		for(Variable v: newVariables) {
+			this.variableRepository.save(v);
+		}
+		
+		return null;
+	}
 	
 	
 }

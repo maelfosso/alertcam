@@ -1,13 +1,23 @@
 package com.cpc.alertcam.resource.models;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "variables")
@@ -26,12 +36,18 @@ public class Variable {
 	@Column(name = "parent")
 	private String parent;
 	
-	@ManyToOne
+	@Column(name = "axis")
+	private String axis;
+	
+	@ManyToOne /// (cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH})
 	@JoinColumn(name = "datasource_id", referencedColumnName = "id")
 	Datasource datasource;	
 	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="variable", orphanRemoval=true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@JsonManagedReference
+	List<Option> options; // = new ArrayList<Option>();
+	
 	public Variable() {
-		
 	}
 	
 	public Variable(String parent, String name, String type) {
@@ -42,6 +58,14 @@ public class Variable {
 		this.parent = parent;
 	}
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -63,6 +87,14 @@ public class Variable {
 		this.parent = parent;
 	}
 	
+	public String getAxis() {
+		return axis;
+	}
+
+	public void setAxis(String axis) {
+		this.axis = axis;
+	}
+
 	public Datasource getDatasource() {
 		return datasource;
 	}
@@ -70,10 +102,22 @@ public class Variable {
 		this.datasource = datasource;
 	}
 
+	public void addOption(Option option) {
+		this.options.add(option);
+	}
+	
+	public List<Option> getOptions() {
+		return options;
+	}
+
+	public void setOptions(List<Option> options) {
+		this.options = options;
+	}
+
 	@Override
 	public String toString() {
-		return "Variable [id=" + id + ", type=" + type + ", name=" + name + ", parent=" + parent + ", datasource="
-				+ datasource + "]";
+		return "Variable [id=" + id + ", type=" + type + ", name=" + name + ", parent=" + parent + ", axis=" + axis
+				+ ", datasource=" + datasource + ", options=" + options + "]";
 	}
 	
 }

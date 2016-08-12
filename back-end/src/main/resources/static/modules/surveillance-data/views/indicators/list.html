@@ -1,0 +1,36 @@
+<div class="">
+    <legend>
+        <strong>{{ datasource.name }}</strong>List of Indicators
+        <a ui-sref="surveillance.add" class="btn btn-xs pull-right" style="margin-top: 10px;">
+            <i class="fa fa-plus"></i> add indicator
+        </a>
+    </legend>
+    <table class="table table-hover">
+        <thead>
+            <tr class="center">
+                <th> # </th>
+                <th> Name </th>
+                <th> Description </th> 
+                <th> Formula </th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="ind in indicators">
+                <td> 1 </td>
+                <td>{{ ind.name }}</td>
+                <td>{{ ind.dbServer }}</td>
+                <td>{{ ind.dbName }}</td>
+                <td>{{ ind.dbUsername }}</td>
+                <td>{{ ind.dbPassword }}</td>
+                <td>{{ ind.event.name }}</td>
+                <td>
+                    <a href="#" class="btn btn-xs btn-teal tooltips" ng-click="edit.open(ds)"
+                        data-placement="top" data-original-title="Edit"> <i class="fa fa-edit"></i> Edit </a>
+                    <a href="#"  class="btn btn-xs btn-bricky tooltips" data-placement="top"
+                        data-original-title="Delete" ng-click="delete.open(ds)" data-toggle="modal"> <i class="fa fa-trash"></i> Delete </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

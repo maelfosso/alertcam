@@ -4,26 +4,22 @@ dashboards.directive("barChart", function($window) {
 	return {
 		restrict: "EA",
 		template: "<svg></svg>",
+		scope: {
+			data: '=data',
+			x: '=x',
+			y: '=y',
+			z: '=z'
+		},
 		link: function(scope, elem, attrs) {
-			var data = [{
-			    'x': 1,
-			    'y': 5
-			  }, {
-			    'x': 20,
-			    'y': 20
-			  }, {
-			    'x': 40,
-			    'y': 10
-			  }, {
-			    'x': 60,
-			    'y': 40
-			  }, {
-			    'x': 80,
-			    'y': 5
-			  }, {
-			    'x': 100,
-			    'y': 60
-			  }];
+			var data = scope.data;
+			var x = scope.x,
+				y = scope.y,
+				z = scope.z;
+			
+			/*console.log(data);
+			console.log(x);
+			console.log(y);
+			console.log(z);*/
 
 			var margins = {
 					left: 40,
@@ -31,13 +27,17 @@ dashboards.directive("barChart", function($window) {
 					top: 30,
 					bottom: 30,
 				},
-				width = -2 + angular.element(elem).parent().width()/2,
-				height = width; // angular.element(elem).height();
+				width = 500,
+				height = 350;
 
 			width = width - margins.left - margins.right,
 			height = height - margins.top - margins.bottom;
 			
 			var d3 = $window.d3;
+			data.forEach(function(d, i) {
+				d.y = +d.y;
+				console.log(d.x + ' -- ' + d.y);
+			});
 			
 			var xRange = d3.scale.ordinal()
 							.rangeRoundBands([0, width], .05)
@@ -45,7 +45,7 @@ dashboards.directive("barChart", function($window) {
 					        
 			    yRange = d3.scale.linear()
 			    			.range([height, 0])
-			    			.domain([0, d3.max(data, function(d) { return d.x; }) ]),
+			    			.domain([0, d3.max(data, function(d) { return d.y; }) ]),
 	    			        
 		        xAxis = d3.svg.axis()
 		        			.scale(xRange)
@@ -68,6 +68,8 @@ dashboards.directive("barChart", function($window) {
 						.attr("transform", "translate(" + margins.left + "," + margins.top + ")")
 					;
 			
+			
+			
 			svg.append('g')
 				.attr('class', 'x axis')
 				.attr('transform', 'translate(0, ' + height + ')')	
@@ -87,7 +89,7 @@ dashboards.directive("barChart", function($window) {
 					.attr("y", 6)
 					.attr("dy", ".71em")
 					.style("text-anchor", "end")
-					.text("Y axis")
+					.text(y.display)
 			;
 				
 		    svg.selectAll('bar')

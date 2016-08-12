@@ -2,8 +2,10 @@ package com.cpc.alertcam.resource.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,24 +23,16 @@ public class Dashboard {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
-	@Column(name = "graphic")
-	private String graphic;
 	
 	@Column(name = "title")
 	private String title;
-	
-	@ManyToMany
-	@JoinTable(name = "dashboards_variables",
-		joinColumns = @JoinColumn(name = "dashboard_id", referencedColumnName = "id"),
-		inverseJoinColumns = @JoinColumn(name = "variable_id", referencedColumnName = "id")
-	)
-	private List<Variable> variables;
+
+	@OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.EAGER)
+	private Graphic graphic;// Will be a list of graphic
 	
 	@ManyToOne
 	@JoinColumn(name = "event_id", referencedColumnName = "id")
 	private Event event;
-	
 	
 
 	public Long getId() {
@@ -56,12 +51,12 @@ public class Dashboard {
 		this.title = title;
 	}
 
-	public List<Variable> getVariables() {
-		return variables;
+	public Graphic getGraphic() {
+		return graphic;
 	}
 
-	public void setVariables(List<Variable> variables) {
-		this.variables = variables;
+	public void setGraphic(Graphic graphic) {
+		this.graphic = graphic;
 	}
 
 	public Event getEvent() {
@@ -71,6 +66,10 @@ public class Dashboard {
 	public void setEvent(Event event) {
 		this.event = event;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Dashboard [id=" + id + ", title=" + title + "]";
+	}
 	
 }

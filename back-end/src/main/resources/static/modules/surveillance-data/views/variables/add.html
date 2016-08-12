@@ -1,0 +1,86 @@
+<div>
+	<legend class="row">
+		<span class="col-md-6">
+	        Add, Delete or Update Variables
+	    </span>
+		<div class="col-md-offset-3 col-md-3">
+			<button type="button" class="btn btn-success finish-step btn-block" ng-click="go()">
+				Go <i class="fa fa-arrow-circle-right"></i>
+			</button>
+		</div>
+	</legend>
+	<div class="row">
+		<div class="col-md-6">
+			<legend>Columns</legend>
+	        <div class="panel panel-default" ng-repeat="(parent, items) in columns | groupBy: 'parent'">
+	            <div class="panel-heading">
+					<i class="fa fa-parent"></i>
+	               	<h3 class="panel-title"> {{ parent }} </h3>
+	                    
+	                <div class="panel-tools">
+						<a class="btn btn-xs btn-link collapses" href ng-click="collapse($event)">
+						</a>
+					</div>
+	           	</div>
+	                   
+	           	<ul class="list-group"
+					dnd-list="columns"
+					dnd-allowed-types="[parent]">
+					
+					<li class="list-group-item" ng-repeat="item in items"
+						dnd-draggable="item"
+						dnd-type="item.parent"
+						dnd-moved="onMoved(items, $index)"
+						dnd-effect-allowed="move"
+						dnd-selected="item.selected = !item.selected"
+						ng-class="{'active': item.selected }">
+						
+						<!-- <span class="badge">{{ item.type }}</span> -->
+						<h5>{{ item.name }} <small>{{ item.type }}</small></h5>
+						
+					</li>
+				</ul>
+	        </div>
+		</div>
+	          
+		<div class="col-md-6">
+			<legend>Variables</legend>
+			
+			<div class="panel panel-info" ng-repeat="(axis, items) in variables | groupBy: 'axis'">
+			    <div class="panel-heading">
+			    	<i class="fa fa-code"></i>
+			        <h3 class="panel-title"> {{ axis }} </h3>
+			        
+			        <div class="panel-tools">
+						<a class="btn btn-xs btn-link collapses" href ng-click="collapse($event)">
+						</a>
+					</div>
+			    </div>
+		                  
+	            <ul class="list-group" 
+					dnd-list="variables"
+					dnd-inserted="onInserted(items, item)"
+					dnd-drop="onDrop(items, item)">
+					
+					<li class="list-group-item" ng-repeat="item in items"
+						dnd-draggable="item"
+						dnd-moved="variables.splice($index, 1)"
+						dnd-effect-allowed="move"
+						dnd-selected="item.selected = !item.selected"
+						ng-class="{'active': item.selected }">
+						 
+						<span class="badge">{{ item.parent }}</span>
+						<span>
+							<h5>{{ item.name }} <small>{{ item.type }}</small></h5>`
+						</span>
+						<div class="form-group" ng-if="item.axis == 'Time'">
+							<label>Date format</label>
+							<select class="form-control" ng-options="fd for fd in format_date" 
+								ng-model-options="{ getterSetter: true }" ng-model="item.formatDate"></select>
+						</div>
+					</li>
+				</ul>
+	         </div>
+	     </div>
+	</div>
+</div>

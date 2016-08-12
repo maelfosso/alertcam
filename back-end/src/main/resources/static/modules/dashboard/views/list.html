@@ -1,18 +1,17 @@
-<div ng-repeat="event in events" id="{{ event.id }}">
+<div ng-controller="ListDashboard" ng-repeat="event in events" id="{{ event.id }}">
 	<legend>
 		{{ event.name }}
 		
         <a ui-sref="dashboard.add({ eventId: event.id })" class="btn btn-xs pull-right" style="margin-top: 10px;">
-            <i class="fa fa-plus"></i> add data source
+            <i class="fa fa-plus"></i> add dashboard
         </a>
 	</legend>
-	
-    <div class="row">
-		<div class="col-sm-6">
+    <div class="row" >
+		<div class="col-sm-6" ng-repeat="dashboard in dashboards">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<i class="fa fa-line-chart"></i>
-					Calendar Heat des consultations par semaine
+					{{ dashboard.title }}
 					<div class="panel-tools">
 						<a class="btn btn-xs btn-link panel-collapse collapses" href ng-click="collapse($event)">
 							
@@ -28,12 +27,27 @@
 						</a>
 					</div>
 				</div>
-				<div class="panel-body">
-					<img src="/img/calendar_heat.png" style="width: 500px; height: 500px;"/>
-				</div>
+				<div class="panel-body" ng-if="dashboard.graphic.name == 'line-chart'" style="display: inline-block;"
+						line-chart data="dashboard.graphic.data"
+						x="dashboard.graphic.xAxis" y="dashboard.graphic.yAxis" z="dashboard.graphic.zAxis"></div>
+				<div class="panel-body" ng-if="dashboard.graphic.name == 'bar-chart'" style="display: inline-block;"
+						bar-chart data="dashboard.graphic.data"
+						x="dashboard.graphic.xAxis" y="dashboard.graphic.yAxis" z="dashboard.graphic.zAxis"></div>
+					<!-- <img src="/img/calendar_heat.png" style="width: 500px; height: 500px;"/> -->
+				<!-- <div class="panel-footer">
+					Du <b>{{ }}</b> au <b>{{ }}</b> 
+					<div class="panel-tools">
+						<a class="btn btn-xs btn-link panel-config" href data-toggle="modal" ng-click="config(dashboard)">
+							<i class="fa fa-backward"></i>
+						</a>
+						<a class="btn btn-xs btn-link panel-refresh" href data-toggle="modal" ng-click="refresh(dashboard)">
+							<i class="fa fa-forward"></i>
+						</a>
+					</div>
+				</div> -->
 			</div>
 		</div>
-		<div class="col-sm-5">
+		<!-- <div class="col-sm-5">
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="panel panel-default">
@@ -85,7 +99,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 			

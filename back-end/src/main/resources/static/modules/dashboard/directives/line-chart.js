@@ -6,17 +6,22 @@ dashboards.directive("lineChart", function($window) {
 		template: "<svg></svg>",
 		scope: {
 			data: '=data',
-			xtype: '=xtype',
-			ytype: '=ytype',
+			x: '=x',
+			y: '=y',
+			z: '=z',
+				
 			test: '=test',
 			threshold: '=threshold'
 		},
 		link: function(scope, elem, attrs) {
 			
 			var data = scope.data,
-				xtype = scope.xtype,
-				ytype = scope.ytype,
-				test = scope.test;
+				x = scope.x,
+				y = scope.y,
+				z = scope.z,
+				
+				test = false, //scope.test,
+				threshold = scope.threshold;
 			var d3 = $window.d3;
 			var margins = {
 					left: 40,
@@ -24,24 +29,33 @@ dashboards.directive("lineChart", function($window) {
 					top: 	30,
 					bottom:	30
 				},
-				width,
-				height;
+				width = 500,
+				height = 350;
 			
-			if (test) {
-				width = angular.element(elem).width(),
-				height = width;
-			} else {
-				width = -2 + angular.element(elem).parent().width()/2,
-				height = width;
-			}
 			width = width - margins.left - margins.right,
 			height = height - margins.top - margins.bottom;
-
-			var formatDate = d3.time.format("%Y-%m");
-			if (xtype == 'DATE') {
-				data.forEach(function(d) {
-					d.x = formatDate.parse(d.x);
-				})
+			
+			if (x.variable.axis == 'Time') {
+				
+				var formatDate,
+					options = x.variable.options;
+				for (i = 0; i < options.length; i++) {
+					if (options[i].name == 'formatDate') {
+						formatDate = d3.time.format(options[i].value);
+						
+						break;
+					}
+				} 					
+				
+				data.forEach(function(d, i, data) {
+					if (d.x) {
+						d.x = formatDate.parse(d.x.toString());
+					} else {
+						data.splice(i, 1);
+					}
+					
+					d.y = +d.y;
+				});
 			}
 			data.sort(function(a, b) {
 				return d3.ascending(a.x, b.x);
@@ -51,11 +65,11 @@ dashboards.directive("lineChart", function($window) {
 						.range([0, width])
 						.domain(d3.extent(data, function(d) { return d.x; }))*/
 				;
-			if (xtype == 'DATE') {
+			if (x.variable.axis == 'Time') {
 				xScale = d3.time.scale()
 							.range([0, width])
 							.domain(d3.extent(data, function(d) { return d.x; }));
-			} else if (xtype == 'INT') {
+			} else {// if (xAxis.variable.axis == 'INT') {
 				xScale = d3.scale.linear()
 							.range([0, width])
 							.domain(d3.extent(data, function(d) { return d.x; }));
@@ -106,17 +120,16 @@ dashboards.directive("lineChart", function($window) {
 				
 				.append("text")
 					.attr("transform", "rotate(-90)")
-					.attr("y", 6)
+					.attr("y", -30)
 					.attr("dy", ".71em")
 					.style("text-anchor", "end")
-					.text("Y Axis")
+					.text(y.display)
 			;
 			
 			svg.append("path")
 				.datum(data)
 				.attr("class", "line")
 				.attr("d", line)
-				.attr("fill", "none")
 			;
 
 			if (threshold) {

@@ -26,9 +26,29 @@ angular.module('alertcam.surveillance', [])
         	templateUrl: "modules/surveillance-data/views/data-sources/list.html"
         })
         .state("surveillance.add", {
-        	url: "/add",
+        	url: "/datasource/add",
         	templateUrl: "modules/surveillance-data/views/data-sources/wizard.html",
         	controller: 'AddDatasource'
+        })
+        .state("surveillance.variables", {
+        	url: "/datasource/:datasourceId/variables",
+        	templateUrl: "modules/surveillance-data/views/variables/list.html",
+        	controller: "ListVariables",
+        	resolve: {
+        		datasourceID: function($stateParams) {
+        			return $stateParams.datasourceId;
+        		}
+        	}
+        })
+        .state("surveillance.variables-edit", {
+        	url: "/datasource/:datasourceId/variables/edit",
+        	templateUrl: "modules/surveillance-data/views/variables/add.html",
+        	controller: "AddVariables"
+        })
+        .state("surveillance.indicators", {
+        	url: "/datasource/:datasourceId/indicators",
+        	templateUrl: "modules/surveillance-data/views/indicators/list.html",
+        	controller: "ListIndicators"
         })
     ;
 })

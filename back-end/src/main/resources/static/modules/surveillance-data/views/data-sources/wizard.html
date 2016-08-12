@@ -191,7 +191,7 @@
 				<h2 class="StepTitle">Surveillance Indicators</h2>
 				
 				<div class="row">
-					<div class="col-sm-3">
+					<div class="col-md-3">
 						<div class="list-group">
 							<a href class="list-group-item list-group-item-success">Define a new indicator</a>
 							
@@ -201,21 +201,11 @@
 							</a>
 						</div>
 					</div>
-					<div class="col-sm-9">
-						<div class="page-header" style="padding-bottom: initial; margin-top: 10px; border-bottom-width: 2px;">
-							<h4>New indicator</h4>
-						</div>
-						
-						<div class="row">
-							<style type="text/css">
-								.form-group: {
-									margin-left: inherit;
-								}
-							</style>
-							<form>
-								<fieldset class="col-md-4" style="margin-left: 0px;">
-									<legend style="font-size:15px;">Informations</legend>
-									
+					<div class="col-md-9">
+						<uib-tabset class="tabbable">
+    						<uib-tab class="tab-blue">
+    							<uib-tab-heading>Informations</uib-tab-heading>
+    							<div>
 									<div class="form-group">
 										<label class="control-label">Name</label>
 										<input type="text" ng-model="kpi.name" class="form-control" id="name" name="name"/>
@@ -224,50 +214,58 @@
 										<label class="control-label">Description</label>
 										<textarea class="form-control" rows="3" ng-model="kpi.description"></textarea>
 									</div>
-								</fieldset>
-								<fieldset class="col-md-4">
-									<legend style="font-size:15px;">Formula</legend>
-									
+								</div>
+    						</uib-tab>
+						    <uib-tab>
+						    	<uib-tab-heading>Formula</uib-tab-heading>
+						    	<div>
 									<div class="form-group">
 										<label class="control-label">Variables</label>
 										<select class="form-control" ng-options="var.name for var in variables" ng-model="kpi.variable"></select>
 									</div>
+									<div>
+										<p class="control-label">Which type of indicator is ?</p>
+										<div class="radio radio-primary radio-inline">
+											<input type="radio" name="type_graphic" id="threshold" ng-model="kpi.type" value="Threshold"/>
+											<label for="threshold">Threshold</label>
+										</div>
+										<div class="radio radio-primary radio-inline">
+											<input type="radio" name="type_graphic" id="range" ng-model="kpi.type" value="Range"/>
+											<label for="range">Range</label>
+										</div>
+									</div>
 									<div class="form-group">
 										<label class="control-label">Graphical Representation</label>
-										<select class="form-control" ng-options="g.name for g in graphics" ng-model="kpi.graphic"/>
+										<select class="form-control" ng-options="g.name for g in graphics | filterBy: type == kpi.type" ng-model="kpi.graphic"/>
 										<span class="help-block">{{ kpi.graphic.description }}</span>
 									</div> 
 									<div class="form-group" ng-if="kpi.graphic.name == 'Line'">
 										<label class="control-label">Seuil</label>
-										<input class="form-control" ng-model="kpi.threshold"/>
+										<input class="form-control" ng-model="kpi.graphic.parameter.threshold"/>
 									</div>
 									<div class="form-group" ng-if="kpi.graphic.name == 'Cadran'">
 										<label class="control-label">Range</label>
 										<div class="row">
 											<div class="col-sm-4">
-												<span>Green [0 - x]</span>
-												<input type="number" class="form-control" ng-model="kpi.graphic.green"/>
+												<span>Green [0 - {{ kpi.graphic.parameter.green }}]</span>
+												<input type="number" class="form-control" ng-model="kpi.graphic.parameter.green"/>
 											</div>
 											<div class="col-sm-4">
-												<span>Yello [{{ kpi.graphic.green + 1 }} - x]</span>
-												<input type="number" class="form-control" ng-model="kpi.graphic.yellow"/>
+												<span>Yellow [{{ kpi.graphic.parameter.green + 1 }}, {{ kpi.graphic.parameter.yellow }}]</span>
+												<input type="number" class="form-control" ng-model="kpi.graphic.parameter.yellow"/>
 											</div>
 											<div class="col-sm-4">
 												<span>Red [{{ kpi.graphic.yellow + 1 }}, 100]</span>
-												<input type="number" class="form-control" ng-model="kpi.graphic.red"/>
 											</div> 
 										</div>
 									</div>
-								</fieldset>		
-								<fieldset class="col-md-4">
-									<legend style="font-size:15px;">Alert</legend>
-									People to alert if the 
-									<div class="form-group">
-										<label class="form-block">Mailing</label>
-									</div>
-								</fieldset>
-							</div>	
-						</div>
+								</div>
+						    </uib-tab>
+						    <uib-tab>
+						      <uib-tab-heading>Alert !</uib-tab-heading>
+						      
+						    </uib-tab>
+						</uib-tabset>
 					</div>
 				</div>
 			</div>
